@@ -1,0 +1,214 @@
+"use client";
+
+import { FormEvent, useState } from "react";
+import Link from "next/link";
+import { ArrowIcon, CheckIcon } from "@/components/icons";
+import { budgetRanges, projectTypes } from "@/lib/site";
+import type { ContactErrors } from "@/lib/contact";
+
+type FormStatus =
+  | { type: "idle" }
+  | { type: "loading" }
+  | { type: "success"; message: string }
+  | { type: "error"; message: string };
+
+export function ContactForm({ contactEmail }: { contactEmail: string }) {
+  const [status, setStatus] = useState<FormStatus>({ type: "idle" });
+  const [errors, setErrors] = useState<ContactErrors>({});
+  const [fallbackHref, setFallbackHref] = useState(`mailto:${contactEmail}`);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus({ type: "loading" });
+    setErrors({});
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const field = (name: string) => {
+      const value = formData.get(name);
+      return typeof value === "string" ? value : "";
+    };
+    const payload = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      projectType: formData.get("projectType"),
+      budget: formData.get("budget"),
+      message: formData.get("message"),
+      website: formData.get("website"),
+    };
+    const fallbackBody = [
+      `Nom : ${field("name")}`,
+      `E-mail : ${field("email")}`,
+      `Téléphone : ${field("phone") || "Non renseigné"}`,
+      `Projet : ${field("projectType")}`,
+      `Budget : ${field("budget") || "Non renseigné"}`,
+      "",
+      field("message"),
+    ].join("\n");
+    setFallbackHref(
+      `mailto:${contactEmail}?subject=${encodeURIComponent("Demande de projet via AryWeb")}&body=${encodeURIComponent(fallbackBody)}`,
+    );
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json() as {
+        message?: string;
+        errors?: ContactErrors;
+        code?: string;
+      };
+
+      if (!response.ok) {
+        if (result.errors) setErrors(result.errors);
+        const fallback = result.code === "CONTACT_NOT_CONFIGURED"
+          ? `L’envoi automatique n’est pas encore configuré. Écrivez directement à ${contactEmail}.`
+          : result.message ?? "Le message n’a pas pu être envoyé. Réessayez dans un instant.";
+        setStatus({ type: "error", message: fallback });
+        return;
+      }
+
+      form.reset();
+      setStatus({
+        type: "success",
+        message: "Merci ! Votre demande a bien été envoyée. Je vous répondrai à l’adresse indiquée.",
+      });
+    } catch {
+      setStatus({
+        type: "error",
+        message: `Impossible de joindre le service. Vous pouvez écrire à ${contactEmail}.`,
+      });
+    }
+  }
+
+  const fieldError = (name: keyof ContactErrors) =>
+    errors[name] ? <span className="field-error" id={`${name}-error`}>{errors[name]}</span> : null;
+
+  return (
+    <form className="contact-form" onSubmit={handleSubmit} noValidate>
+      <div className="form-row">
+        <label>
+          <span>Votre nom <b aria-hidden="true">*</b></span>
+          <input
+            name="name"
+            type="text"
+            autoComplete="name"
+            placeholder="Comment vous appelez-vous ?"
+            required
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? "name-error" : undefined}
+          />
+          {fieldError("name")}
+        </label>
+        <label>
+          <span>Votre e-mail <b aria-hidden="true">*</b></span>
+          <input
+            name="email"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            placeholder="vous@entreprise.fr"
+            required
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? "email-error" : undefined}
+          />
+          {fieldError("email")}
+        </label>
+      </div>
+
+      <div className="form-row">
+        <label>
+          <span>Téléphone <small>facultatif</small></span>
+          <input
+            name="phone"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder="06 00 00 00 00"
+            aria-invalid={Boolean(errors.phone)}
+            aria-describedby={errors.phone ? "phone-error" : undefined}
+          />
+          {fieldError("phone")}
+        </label>
+        <label>
+          <span>Type de projet <b aria-hidden="true">*</b></span>
+          <select
+            name="projectType"
+            defaultValue=""
+            required
+            aria-invalid={Boolean(errors.projectType)}
+            aria-describedby={errors.projectType ? "projectType-error" : undefined}
+          >
+            <option value="" disabled>Choisir une option</option>
+            {projectTypes.map((type) => <option value={type} key={type}>{type}</option>)}
+          </select>
+          {fieldError("projectType")}
+        </label>
+      </div>
+
+      <label>
+        <span>Budget envisagé <small>facultatif</small></span>
+        <select
+          name="budget"
+          defaultValue=""
+          aria-invalid={Boolean(errors.budget)}
+          aria-describedby={errors.budget ? "budget-error" : undefined}
+        >
+          <option value="">Choisir une fourchette</option>
+          {budgetRanges.map((budget) => <option value={budget} key={budget}>{budget}</option>)}
+        </select>
+        {fieldError("budget")}
+      </label>
+
+      <label>
+        <span>Parlez-moi de votre projet <b aria-hidden="true">*</b></span>
+        <textarea
+          name="message"
+          rows={6}
+          minLength={20}
+          maxLength={2000}
+          placeholder="Votre activité, ce dont vous avez besoin et ce que le site doit vous apporter…"
+          required
+          aria-invalid={Boolean(errors.message)}
+          aria-describedby={errors.message ? "message-error" : "message-help"}
+        />
+        <small className="field-help" id="message-help">20 caractères minimum</small>
+        {fieldError("message")}
+      </label>
+
+      <label className="honeypot" aria-hidden="true">
+        Ne pas remplir ce champ
+        <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </label>
+
+      <p className="form-privacy">
+        AryWeb utilise vos informations uniquement pour étudier votre demande et vous répondre.
+        Les champs marqués d’un astérisque sont obligatoires.{" "}
+        <Link href="/confidentialite">En savoir plus sur vos données et vos droits</Link>.
+      </p>
+
+      <div className="form-submit-row">
+        <button className="button button-primary" type="submit" disabled={status.type === "loading"}>
+          {status.type === "loading" ? "Envoi en cours…" : "Envoyer mon message"}
+          {status.type !== "loading" && <ArrowIcon />}
+        </button>
+        <p>Vous recevrez une réponse à l’adresse e-mail indiquée.</p>
+      </div>
+
+      {status.type === "success" && (
+        <div className="form-message is-success" role="status">
+          <CheckIcon />
+          <p>{status.message}</p>
+        </div>
+      )}
+      {status.type === "error" && (
+        <div className="form-message is-error" role="alert">
+          <p>{status.message} <a href={fallbackHref}>Envoyer l’e-mail prérempli</a></p>
+        </div>
+      )}
+    </form>
+  );
+}

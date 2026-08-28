@@ -1,0 +1,81 @@
+# Dependencies
+node_modules/
+
+# Next.js / production output
+.next/
+out/
+build/
+dist/
+
+# Secrets and local environment variables
+.env
+.env.*
+!.env.example
+.envrc
+.direnv/
+.npmrc
+.yarnrc
+.netrc
+.sentryclirc
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.crt
+*.cer
+*.der
+*.secret
+*.kdbx
+*.ovpn
+*.mobileprovision
+*.provisionprofile
+id_rsa*
+credentials*
+*-credentials.json
+service-account*.json
+firebase-adminsdk*.json
+secrets/
+.ssh/
+.gnupg/
+
+# Local databases and data exports
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.csv
+*.tsv
+
+# Logs, caches and test reports
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.eslintcache
+.turbo/
+coverage/
+
+# Hosting providers
+.vercel/
+.netlify/
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*~
+
+# Local documentation copies
+README 2.md
+ARBORESCENCE 2.md
+PROMPT-CODEX.md
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
