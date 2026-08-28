@@ -1,3 +1,5 @@
+export { budgetRanges, projectTypes } from "./contact-options";
+
 export const siteConfig = {
   name: "AryWeb",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "aryweb15@gmail.com",
@@ -138,21 +140,4 @@ export const faqItems = [
     answer:
       "La carte peut pointer vers un lien défini ensemble : site, page de contact, menu ou formulaire. La compatibilité, la personnalisation et une éventuelle solution de secours sont précisées dans le devis.",
   },
-] as const;
-
-export const projectTypes = [
-  "Site vitrine",
-  "E-commerce",
-  "Refonte",
-  "Carte NFC",
-  "Autre besoin",
-] as const;
-
-export const budgetRanges = [
-  "À définir ensemble",
-  "Moins de 250 €",
-  "250 € – 500 €",
-  "500 € – 1 000 €",
-  "1 000 € – 2 000 €",
-  "Plus de 2 000 €",
 ] as const;

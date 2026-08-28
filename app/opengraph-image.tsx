@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 
+export const dynamic = "force-static";
 export const alt = "AryWeb — Votre activité bien expliquée, votre site facile à utiliser";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

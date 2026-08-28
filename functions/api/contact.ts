@@ -1,11 +1,19 @@
-import { NextResponse } from "next/server";
 import {
   formatContactMessage,
   normalizeContactPayload,
   validateContactPayload,
-} from "@/lib/contact";
+} from "../../lib/contact";
 
-export const runtime = "nodejs";
+type Env = {
+  RESEND_API_KEY?: string;
+  RESEND_FROM_EMAIL?: string;
+  CONTACT_EMAIL?: string;
+};
+
+type PagesContext = {
+  request: Request;
+  env: Env;
+};
 
 const attempts = new Map<string, number[]>();
 const WINDOW_MS = 15 * 60 * 1000;
@@ -17,13 +25,16 @@ let lastCleanup = 0;
 function jsonResponse(body: object, init?: ResponseInit) {
   const headers = new Headers(init?.headers);
   headers.set("Cache-Control", "no-store");
-  headers.set("Vary", "Origin");
-  return NextResponse.json(body, { ...init, headers });
+  headers.set("Content-Type", "application/json; charset=utf-8");
+  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  headers.set("X-Content-Type-Options", "nosniff");
+  return new Response(JSON.stringify(body), { ...init, headers });
 }
 
 function getClientIdentifier(request: Request) {
-  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return forwarded || request.headers.get("x-real-ip") || "anonymous";
+  return request.headers.get("CF-Connecting-IP")
+    || request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || "anonymous";
 }
 
 function isRateLimited(identifier: string) {
@@ -48,22 +59,10 @@ function isRateLimited(identifier: string) {
 function isSameOrigin(request: Request) {
   const origin = request.headers.get("origin");
   const fetchSite = request.headers.get("sec-fetch-site");
-  const host = request.headers.get("x-forwarded-host")?.split(",")[0]?.trim()
-    || request.headers.get("host");
-  const forwardedProtocol = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim();
-
-  if (!origin || !host || (fetchSite && fetchSite !== "same-origin")) return false;
+  if (!origin || (fetchSite && fetchSite !== "same-origin")) return false;
 
   try {
-    const allowedOrigins = new Set<string>();
-    const requestProtocol = forwardedProtocol || new URL(request.url).protocol.replace(":", "");
-    allowedOrigins.add(`${requestProtocol}://${host}`);
-
-    if (process.env.NEXT_PUBLIC_SITE_URL) {
-      allowedOrigins.add(new URL(process.env.NEXT_PUBLIC_SITE_URL).origin);
-    }
-
-    return allowedOrigins.has(new URL(origin).origin);
+    return new URL(origin).origin === new URL(request.url).origin;
   } catch {
     return false;
   }
@@ -97,7 +96,7 @@ async function readJsonBody(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function onRequestPost({ request, env }: PagesContext) {
   if (!isSameOrigin(request)) {
     return jsonResponse({ message: "Origine de la requête refusée." }, { status: 403 });
   }
@@ -120,11 +119,7 @@ export async function POST(request: Request) {
   }
 
   const payload = normalizeContactPayload(parsedBody.body);
-
-  // A bot that fills the hidden field gets a neutral success response.
-  if (payload.website) {
-    return jsonResponse({ ok: true });
-  }
+  if (payload.website) return jsonResponse({ ok: true });
 
   const errors = validateContactPayload(payload);
   if (Object.keys(errors).length > 0) {
@@ -134,9 +129,9 @@ export async function POST(request: Request) {
     );
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const recipient = process.env.CONTACT_EMAIL;
-  const sender = process.env.RESEND_FROM_EMAIL;
+  const apiKey = env.RESEND_API_KEY;
+  const recipient = env.CONTACT_EMAIL;
+  const sender = env.RESEND_FROM_EMAIL;
 
   if (!apiKey || !recipient || !sender) {
     return jsonResponse(
@@ -162,7 +157,6 @@ export async function POST(request: Request) {
         subject: `Nouvelle demande ${payload.projectType} — ${payload.name}`,
         text: formatContactMessage(payload),
       }),
-      cache: "no-store",
       signal: AbortSignal.timeout(10_000),
     });
 

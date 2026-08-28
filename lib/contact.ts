@@ -1,4 +1,4 @@
-import { budgetRanges, projectTypes } from "@/lib/site";
+import { budgetRanges, projectTypes } from "./contact-options";
 
 export type ContactPayload = {
   name: string;
