@@ -1,3 +1,12 @@
+@font-face {
+  font-family: "Bricolage Grotesque Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url("/fonts/bricolage-grotesque-latin.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   --background: #05070b;
   --background-soft: #080c13;
@@ -434,7 +443,7 @@ ul, ol { margin: 0; padding: 0; }
 .button svg, .text-link svg, .service-row a svg, .inline-cta a svg { width: 19px; flex: 0 0 auto; }
 .button-primary {
   color: #fff;
-  background: var(--blue);
+  background: var(--blue-deep);
   border-color: #4eb5ff;
   box-shadow: 0 10px 30px rgba(0, 115, 255, 0.18);
 }
@@ -851,7 +860,7 @@ ul, ol { margin: 0; padding: 0; }
   flex-direction: column;
 }
 
-.price-card-head { display: flex; justify-content: space-between; gap: 12px; color: #657b8f; font-size: 0.55rem; font-weight: 850; letter-spacing: 0.12em; }
+.price-card-head { display: flex; justify-content: space-between; gap: 12px; color: #71879a; font-size: 0.55rem; font-weight: 850; letter-spacing: 0.12em; }
 .price-card-head > span { color: var(--cyan-bright); }
 .price-card h3 { margin: 42px 0 12px; font-size: clamp(1.7rem, 2.6vw, 2.5rem); line-height: 1.02; letter-spacing: -0.045em; }
 .price-card > p { min-height: 84px; margin: 0; color: var(--muted); font-size: 0.8rem; line-height: 1.6; }
@@ -874,7 +883,7 @@ ul, ol { margin: 0; padding: 0; }
 .process-list { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); }
 .process-list li { min-height: 305px; padding: 27px 25px; border-block: 1px solid var(--line); position: relative; }
 .process-list li + li { border-left: 1px solid var(--line); }
-.process-list li > span { position: absolute; top: 30px; right: 24px; color: #4c6173; font-size: 0.68rem; font-weight: 800; }
+.process-list li > span { position: absolute; top: 30px; right: 24px; color: #71879a; font-size: 0.68rem; font-weight: 800; }
 .process-icon {
   width: 48px;
   height: 48px;
@@ -1120,7 +1129,7 @@ ul, ol { margin: 0; padding: 0; }
 .footer-brand-block .brand { margin-bottom: 14px; }
 .footer-brand-block p { max-width: 360px; margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.65; }
 .footer-nav, .footer-contact { display: grid; align-content: start; justify-items: start; gap: 9px; }
-.footer-nav p, .footer-contact p { margin-bottom: 8px; color: #64788b; font-size: 0.6rem; font-weight: 850; letter-spacing: 0.13em; text-transform: uppercase; }
+.footer-nav p, .footer-contact p { margin-bottom: 8px; color: #71879a; font-size: 0.6rem; font-weight: 850; letter-spacing: 0.13em; text-transform: uppercase; }
 .footer-nav a, .footer-contact a, .footer-contact span { color: #aab8c5; font-size: 0.79rem; }
 .footer-contact a { color: var(--cyan); font-weight: 700; }
 .footer-bottom {

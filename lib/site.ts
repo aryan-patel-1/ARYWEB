@@ -1,12 +1,17 @@
 export { budgetRanges, projectTypes } from "./contact-options";
 
+const productionUrl = "https://aryweb.pages.dev";
+const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "");
+
 export const siteConfig = {
   name: "AryWeb",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "aryweb15@gmail.com",
   location:
     process.env.NEXT_PUBLIC_LOCATION
     ?? "En présentiel en Île-de-France • À distance en visioconférence",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:1234",
+  url: configuredUrl?.startsWith("https://") && !configuredUrl.includes("localhost")
+    ? configuredUrl
+    : productionUrl,
   description:
     "Sites vitrines, boutiques en ligne, refontes et cartes NFC pour indépendants, artisans et commerces.",
 };

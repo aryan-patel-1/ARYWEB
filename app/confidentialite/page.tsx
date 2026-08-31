@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description: "Informations sur le traitement des données du formulaire de contact AryWeb.",
-  alternates: { canonical: "/confidentialite" },
+  alternates: { canonical: `${siteConfig.url}/confidentialite` },
 };
 
 export default function PrivacyPage() {

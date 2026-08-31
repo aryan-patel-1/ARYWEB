@@ -1,10 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IntroLoader } from "@/components/intro-loader";
 import { siteConfig } from "@/lib/site";
-import "@fontsource-variable/bricolage-grotesque";
 import "./globals.css";
-
-const isPublicUrl = !siteConfig.url.includes("localhost");
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -14,11 +11,11 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
-  alternates: { canonical: "/" },
+  alternates: { canonical: siteConfig.url },
   robots: {
-    index: isPublicUrl,
-    follow: isPublicUrl,
-    googleBot: { index: isPublicUrl, follow: isPublicUrl },
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
   },
   icons: {
     icon: [{ url: "/favicon-32.png", type: "image/png", sizes: "32x32" }],
@@ -28,17 +25,17 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AryWeb — Sites web pour indépendants et commerces",
     description: siteConfig.description,
-    url: "/",
+    url: siteConfig.url,
     siteName: siteConfig.name,
     type: "website",
     locale: "fr_FR",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "AryWeb — Sites web pour indépendants et commerces" }],
+    images: [{ url: `${siteConfig.url}/opengraph-image`, width: 1200, height: 630, alt: "AryWeb — Sites web pour indépendants et commerces" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "AryWeb — Sites web pour indépendants et commerces",
     description: siteConfig.description,
-    images: ["/opengraph-image"],
+    images: [`${siteConfig.url}/opengraph-image`],
   },
 };
 
@@ -53,6 +50,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
+        <link
+          rel="preload"
+          href="/fonts/bricolage-grotesque-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;var s=sessionStorage.getItem('aryweb-intro-seen');document.documentElement.classList.add(!r&&!s?'intro-play':'intro-seen');if(!s)sessionStorage.setItem('aryweb-intro-seen','1')}catch(e){document.documentElement.classList.add('intro-seen')}})();`,

@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site";
-import { legalConfigIsComplete } from "@/lib/legal";
 
 export const dynamic = "force-static";
 
@@ -18,16 +17,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.2,
     },
-  ];
-
-  if (legalConfigIsComplete) {
-    pages.push({
+    {
       url: `${siteConfig.url}/mentions-legales`,
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.2,
-    });
-  }
+    },
+  ];
 
   return pages;
 }

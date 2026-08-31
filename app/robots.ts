@@ -4,14 +4,11 @@ import { siteConfig } from "@/lib/site";
 export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
-  const isPublicUrl = !siteConfig.url.includes("localhost");
-
   return {
     rules: {
       userAgent: "*",
-      allow: isPublicUrl ? "/" : undefined,
-      disallow: isPublicUrl ? undefined : "/",
+      allow: "/",
     },
-    sitemap: isPublicUrl ? `${siteConfig.url}/sitemap.xml` : undefined,
+    sitemap: `${siteConfig.url}/sitemap.xml`,
   };
 }

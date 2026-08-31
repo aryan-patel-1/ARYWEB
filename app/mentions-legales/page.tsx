@@ -6,8 +6,8 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Mentions légales",
   description: "Mentions légales du site AryWeb.",
-  alternates: { canonical: "/mentions-legales" },
-  robots: { index: legalConfigIsComplete, follow: legalConfigIsComplete },
+  alternates: { canonical: `${siteConfig.url}/mentions-legales` },
+  robots: { index: true, follow: true },
 };
 
 const value = (content: string) => content || "Information à compléter";
@@ -23,8 +23,8 @@ export default function LegalNoticePage() {
 
         {!legalConfigIsComplete && (
           <p className="legal-warning" role="status">
-            Cette page est volontairement exclue des moteurs de recherche tant que le téléphone
-            professionnel et les coordonnées complètes de l’hébergeur ne sont pas renseignés.
+            Certaines informations doivent encore être complétées, notamment le téléphone
+            professionnel et les coordonnées complètes de l’hébergeur.
           </p>
         )}
 

@@ -38,7 +38,7 @@ export function Services() {
               </div>
               <div className="service-name">
                 <h3>{service.title}</h3>
-                <a href="#contact" aria-label={`Parler de mon projet de ${service.title.toLowerCase()}`}>
+                <a href="#contact" aria-label={`En parler — projet de ${service.title.toLowerCase()}`}>
                   En parler <ArrowIcon />
                 </a>
               </div>

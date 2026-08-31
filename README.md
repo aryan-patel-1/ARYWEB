@@ -73,7 +73,7 @@ formulaire affiche l’adresse e-mail de secours au lieu de perdre la demande.
 
 ### Compléter les mentions légales
 
-Renseignez les variables `LEGAL_*` et `HOST_*` directement dans l’interface de l’hébergeur. Il faut notamment ajouter `LEGAL_PHONE` ainsi que le nom, l’adresse et le téléphone de l’hébergeur. Tant que les informations indispensables manquent, la page affiche un avertissement et reste en `noindex`.
+Renseignez les variables `LEGAL_*` et `HOST_*` directement dans l’interface de l’hébergeur. Il faut notamment ajouter `LEGAL_PHONE` ainsi que le nom, l’adresse et le téléphone de l’hébergeur. Tant que les informations indispensables manquent, la page affiche un avertissement.
 
 Les obligations exactes dépendent du statut et du pays de l’éditeur : faites valider le contenu avant une publication commerciale.
 
