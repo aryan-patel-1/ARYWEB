@@ -3,7 +3,6 @@
 ```text
 aryweb-vscode/
 ├── app/
-│   ├── api/contact/route.ts
 │   ├── confidentialite/page.tsx
 │   ├── mentions-legales/page.tsx
 │   ├── globals.css
@@ -34,6 +33,7 @@ aryweb-vscode/
 │   ├── site-footer.tsx
 │   └── site-header.tsx
 ├── lib/
+│   ├── contact-options.ts
 │   ├── contact.ts
 │   ├── legal.ts
 │   └── site.ts

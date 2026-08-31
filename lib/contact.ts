@@ -57,18 +57,3 @@ export function validateContactPayload(payload: ContactPayload) {
   }
   return errors;
 }
-
-export function formatContactMessage(payload: ContactPayload) {
-  return [
-    `Nouvelle demande depuis le site AryWeb`,
-    "",
-    `Nom : ${payload.name}`,
-    `E-mail : ${payload.email}`,
-    `Téléphone : ${payload.phone || "Non renseigné"}`,
-    `Projet : ${payload.projectType}`,
-    `Budget : ${payload.budget || "Non renseigné"}`,
-    "",
-    "Message :",
-    payload.message,
-  ].join("\n");
-}

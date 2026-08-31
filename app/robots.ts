@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: isPublicUrl ? "/" : undefined,
-      disallow: isPublicUrl ? ["/api/"] : "/",
+      disallow: isPublicUrl ? undefined : "/",
     },
     sitemap: isPublicUrl ? `${siteConfig.url}/sitemap.xml` : undefined,
   };

@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       <main className="legal-content">
         <p className="eyebrow">Protection des données</p>
         <h1>Politique de confidentialité</h1>
-        <p className="legal-updated">Dernière mise à jour : 28 août 2026</p>
+        <p className="legal-updated">Dernière mise à jour : 31 août 2026</p>
 
         <section>
           <h2>Responsable du traitement</h2>
@@ -49,14 +49,13 @@ export default function PrivacyPage() {
         <section>
           <h2>Destinataires et conservation</h2>
           <p>
-            Les informations sont destinées à AryWeb. Lorsque l’envoi automatique est activé,
-            Resend, Inc. intervient comme sous-traitant pour acheminer les e-mails. Resend indique
-            que le contenu des messages, les journaux et certaines données de compte sont stockés
-            aux États-Unis ; ces transferts sont encadrés par le Data Privacy Framework et des
-            clauses contractuelles types. Les données ne sont ni vendues ni utilisées pour de la
-            prospection sans votre accord. Une demande sans suite est supprimée au plus tard douze
-            mois après le dernier échange. Les échanges liés à un contrat peuvent être conservés
-            pendant les durées imposées par les obligations légales.
+            Les informations sont destinées à AryWeb. Formspree intervient comme sous-traitant pour
+            recevoir les soumissions, les conserver dans son interface et transmettre les
+            notifications associées. Formspree indique s’appuyer sur des clauses contractuelles
+            types pour encadrer les transferts de données. Les données ne sont ni vendues ni
+            utilisées pour de la prospection sans votre accord. Une demande sans suite est supprimée
+            au plus tard douze mois après le dernier échange. Les échanges liés à un contrat peuvent
+            être conservés pendant les durées imposées par les obligations légales.
           </p>
         </section>
 

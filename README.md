@@ -15,9 +15,8 @@ Le parcours repose sur les services, la méthode de travail, les engagements et 
 - services détaillés, dont les cartes de contact NFC, avec une illustration clairement présentée comme un schéma ;
 - section de tarifs configurables et positionnement honnête pour les petits budgets ;
 - méthode en quatre étapes, présentation et FAQ ;
-- formulaire de contact validé côté navigateur et côté serveur ;
-- protection anti-spam par champ invisible, limitation de débit et contrôle d’origine ;
-- envoi des messages via l’API Resend lorsque les variables serveur sont configurées ;
+- formulaire de contact validé côté navigateur puis envoyé directement à Formspree ;
+- protection anti-spam par champ invisible et protections du prestataire de formulaire ;
 - solution de repli claire vers l’adresse e-mail ;
 - métadonnées Open Graph et Twitter, canonical, JSON-LD, sitemap et robots ;
 - manifeste web, pages 404 et erreur avec redirection vers l’accueil, politique de confidentialité et mentions légales configurables ;
@@ -58,6 +57,7 @@ NEXT_PUBLIC_PRICE_SHOWCASE=249 €
 NEXT_PUBLIC_PRICE_ECOMMERCE=499 €
 NEXT_PUBLIC_PRICE_REDESIGN=
 NEXT_PUBLIC_PRICE_NFC=24,90 €
+NEXT_PUBLIC_FORMSPREE_ENDPOINT=https://formspree.io/f/votre-identifiant
 ```
 
 Une variable préfixée par `NEXT_PUBLIC_` est visible dans le navigateur : n’y placez jamais de secret.
@@ -66,15 +66,10 @@ Les prix par défaut sont 249 € pour le site vitrine, 499 € pour l’e-comme
 
 ### Activer l’envoi du formulaire
 
-Le formulaire fonctionne avec l’API HTTP de Resend, sans exposer la clé au navigateur :
-
-```env
-RESEND_API_KEY=
-RESEND_FROM_EMAIL=AryWeb <site@votre-domaine.fr>
-CONTACT_EMAIL=aryweb15@gmail.com
-```
-
-Le domaine d’envoi doit être vérifié chez le prestataire. Sans ces trois valeurs, le formulaire affiche l’adresse e-mail de secours au lieu de perdre la demande.
+Créez un formulaire dans Formspree, copiez son endpoint public au format
+`https://formspree.io/f/identifiant`, puis renseignez `NEXT_PUBLIC_FORMSPREE_ENDPOINT` dans
+l’interface de Cloudflare Pages. Aucun secret ni backend n’est nécessaire. Sans endpoint, le
+formulaire affiche l’adresse e-mail de secours au lieu de perdre la demande.
 
 ### Compléter les mentions légales
 
@@ -105,7 +100,6 @@ npm run check      # lint + TypeScript + build
 - `components/intro-loader.tsx` : introduction jouée une fois par session
 - `components/motion-controller.tsx` : révélations et progression de lecture
 - `components/site-header.tsx` : navigation desktop et mobile
-- `app/api/contact/route.ts` : validation et envoi sécurisé
 - `lib/site.ts` : coordonnées, navigation et contenus réutilisés
 - `lib/contact.ts` : validation et formatage des demandes
 - `lib/legal.ts` : configuration des mentions légales
@@ -115,10 +109,9 @@ npm run check      # lint + TypeScript + build
 
 ## Sécurité et confidentialité
 
-- Les clés d’envoi restent exclusivement dans les variables serveur.
-- Le formulaire refuse les requêtes provenant d’autres origines, les types de contenu inattendus et les corps dépassant 16 Kio, puis limite les tentatives par adresse réseau.
-- Cette limitation est conservée en mémoire : elle reste basique et n’est pas partagée entre plusieurs instances serveur.
-- Les données ne sont pas stockées dans une base par l’application.
+- Le site ne contient aucune clé d’envoi et n’exécute aucun backend applicatif.
+- L’endpoint Formspree est public par conception ; la restriction de domaine et les protections anti-spam se configurent chez Formspree.
+- Les données ne sont pas stockées par l’application, mais les soumissions sont conservées dans le compte Formspree.
 - Aucun outil publicitaire, cookie marketing ou outil de mesure d’audience n’est installé.
 - Le `.gitignore` exclut les variables locales, clés, certificats, bases, exports et journaux.
 
@@ -132,9 +125,9 @@ Une clé déjà publiée doit être révoquée et remplacée : l’ajouter ensui
 - préciser pour les cartes NFC le support, la personnalisation, le QR code éventuel, la compatibilité testée, l’abonnement éventuel, les délais et frais de livraison ;
 - vérifier les droits d’utilisation de l’avatar ;
 - définir le domaine réel dans `NEXT_PUBLIC_SITE_URL` ;
-- vérifier le domaine d’envoi et tester une vraie réception du formulaire ;
+- configurer l’endpoint Formspree, restreindre le formulaire au domaine public et tester une vraie réception ;
 - compléter puis faire valider les mentions légales et la politique de confidentialité ;
-- confirmer le prestataire d’hébergement et le prestataire d’e-mail ;
+- confirmer le prestataire d’hébergement et le prestataire de formulaire ;
 - tester le site à 375 px, 768 px et 1440 px, au clavier et avec un lecteur d’écran ;
 - contrôler l’Open Graph, le sitemap, la Search Console et Lighthouse après déploiement ;
 - surveiller les avis de sécurité Next.js et appliquer rapidement les versions correctives.

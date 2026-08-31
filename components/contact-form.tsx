@@ -4,7 +4,13 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { ArrowIcon, CheckIcon } from "@/components/icons";
 import { budgetRanges, projectTypes } from "@/lib/site";
-import type { ContactErrors } from "@/lib/contact";
+import {
+  normalizeContactPayload,
+  validateContactPayload,
+  type ContactErrors,
+} from "@/lib/contact";
+
+const formEndpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT?.trim();
 
 type FormStatus =
   | { type: "idle" }
@@ -28,7 +34,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
       const value = formData.get(name);
       return typeof value === "string" ? value : "";
     };
-    const payload = {
+    const payload = normalizeContactPayload({
       name: formData.get("name"),
       email: formData.get("email"),
       phone: formData.get("phone"),
@@ -36,7 +42,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
       budget: formData.get("budget"),
       message: formData.get("message"),
       website: formData.get("website"),
-    };
+    });
     const fallbackBody = [
       `Nom : ${field("name")}`,
       `E-mail : ${field("email")}`,
@@ -50,24 +56,49 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
       `mailto:${contactEmail}?subject=${encodeURIComponent("Demande de projet via AryWeb")}&body=${encodeURIComponent(fallbackBody)}`,
     );
 
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+    if (payload.website) {
+      form.reset();
+      setStatus({ type: "success", message: "Merci ! Votre demande a bien été envoyée." });
+      return;
+    }
+
+    const validationErrors = validateContactPayload(payload);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setStatus({ type: "error", message: "Certains champs doivent être corrigés." });
+      return;
+    }
+
+    if (!formEndpoint) {
+      setStatus({
+        type: "error",
+        message: `Le formulaire n’est pas encore configuré. Vous pouvez écrire à ${contactEmail}.`,
       });
-      const result = await response.json() as {
-        message?: string;
-        errors?: ContactErrors;
-        code?: string;
-      };
+      return;
+    }
+
+    try {
+      const response = await fetch(formEndpoint, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: payload.name,
+          email: payload.email,
+          phone: payload.phone,
+          project: payload.projectType,
+          budget: payload.budget,
+          message: payload.message,
+        }),
+      });
 
       if (!response.ok) {
-        if (result.errors) setErrors(result.errors);
-        const fallback = result.code === "CONTACT_NOT_CONFIGURED"
-          ? `L’envoi automatique n’est pas encore configuré. Écrivez directement à ${contactEmail}.`
-          : result.message ?? "Le message n’a pas pu être envoyé. Réessayez dans un instant.";
-        setStatus({ type: "error", message: fallback });
+        setStatus({
+          type: "error",
+          message: "Le service de formulaire a refusé l’envoi. Réessayez dans un instant.",
+        });
         return;
       }
 
