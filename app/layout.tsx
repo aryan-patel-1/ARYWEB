@@ -6,7 +6,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "AryWeb — Sites web pour indépendants et commerces",
+    default: "Création de site internet à Vincennes | AryWeb",
     template: "%s — AryWeb",
   },
   description: siteConfig.description,
@@ -23,17 +23,17 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "AryWeb — Sites web pour indépendants et commerces",
+    title: "Création de site internet à Vincennes | AryWeb",
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
     type: "website",
     locale: "fr_FR",
-    images: [{ url: `${siteConfig.url}/opengraph-image`, width: 1200, height: 630, alt: "AryWeb — Sites web pour indépendants et commerces" }],
+    images: [{ url: `${siteConfig.url}/opengraph-image`, width: 1200, height: 630, alt: "AryWeb — Création de site internet à Vincennes" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AryWeb — Sites web pour indépendants et commerces",
+    title: "Création de site internet à Vincennes | AryWeb",
     description: siteConfig.description,
     images: [`${siteConfig.url}/opengraph-image`],
   },

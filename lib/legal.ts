@@ -8,6 +8,8 @@ export const legalConfig = {
   hostName: process.env.HOST_NAME ?? "",
   hostAddress: process.env.HOST_ADDRESS ?? "",
   hostPhone: process.env.HOST_PHONE ?? "",
+  paymentTerms: process.env.CGV_PAYMENT_TERMS ?? "Selon l’échéancier indiqué sur le devis",
+  depositTerms: process.env.CGV_DEPOSIT_TERMS ?? "Selon les conditions indiquées sur le devis",
 };
 
 export const legalConfigIsComplete = Boolean(
@@ -20,4 +22,12 @@ export const legalConfigIsComplete = Boolean(
   && legalConfig.hostName
   && legalConfig.hostAddress
   && legalConfig.hostPhone,
+);
+
+export const cgvConfigIsComplete = Boolean(
+  legalConfig.legalName
+  && legalConfig.status
+  && legalConfig.address
+  && legalConfig.registration
+  && legalConfig.editorPhone,
 );

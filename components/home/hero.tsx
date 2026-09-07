@@ -19,11 +19,14 @@ export function Hero() {
             <span>Créateur web étudiant • {siteConfig.location}</span>
           </p>
           <h1 id="hero-title">
-            Votre activité, bien expliquée. <em>Votre site, facile à utiliser.</em>
+            Création de sites internet pour <em>indépendants et commerces</em>
           </h1>
           <svg className="hero-underline" viewBox="0 0 360 24" aria-hidden="true">
             <path d="M4 16C94 4 225 5 356 13" />
           </svg>
+          <p className="hero-tagline">
+            Votre activité, bien expliquée. <em>Votre site, facile à utiliser.</em>
+          </p>
           <p className="hero-lead">
             Je développe AryWeb en parallèle de mes études. Je crée des sites et des
             cartes NFC avec des formats pensés pour les petits budgets et un suivi direct.

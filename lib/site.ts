@@ -1,6 +1,6 @@
 export { budgetRanges, projectTypes } from "./contact-options";
 
-const productionUrl = "https://aryweb.pages.dev";
+const productionUrl = "https://aryweb.fr";
 const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "");
 
 export const siteConfig = {
@@ -13,7 +13,7 @@ export const siteConfig = {
     ? configuredUrl
     : productionUrl,
   description:
-    "Sites vitrines, boutiques en ligne, refontes et cartes NFC pour indépendants, artisans et commerces.",
+    "AryWeb crée des sites vitrines et e-commerce accessibles pour indépendants, artisans et commerces à Vincennes et en Île-de-France. Devis gratuit.",
 };
 
 export const navigation = [

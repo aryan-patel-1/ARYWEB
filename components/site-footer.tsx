@@ -30,6 +30,7 @@ export function SiteFooter() {
         <p>© {new Date().getFullYear()} AryWeb. Tous droits réservés.</p>
         <div>
           <Link href="/mentions-legales">Mentions légales</Link>
+          <Link href="/cgv">CGV</Link>
           <Link href="/confidentialite">Confidentialité</Link>
         </div>
       </div>
