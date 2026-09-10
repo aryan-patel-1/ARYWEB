@@ -16,6 +16,11 @@ export function MotionController() {
 
     if (reducedMotion || mobileOrTouch || !("IntersectionObserver" in window)) {
       revealItems.forEach((item) => item.setAttribute("data-in-view", "true"));
+
+      // iOS Safari repaints fixed and filtered layers aggressively while
+      // scrolling. Mobile pages don't need the progress animation, so avoid
+      // installing scroll and resize observers altogether.
+      if (reducedMotion || mobileOrTouch) return;
     } else {
       const waitingItems = revealItems.filter((item) => {
         if (item.getBoundingClientRect().top < window.innerHeight * 0.94) {

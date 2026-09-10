@@ -18,6 +18,7 @@ export function SiteHeader() {
     let targetProgress = 0;
     let previousTime = performance.now();
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobileOrTouch = window.matchMedia("(pointer: coarse), (max-width: 820px)").matches;
 
     const clamp = (value: number) => Math.min(1, Math.max(0, value));
     const interpolate = (start: number, end: number, progress: number) => start + (end - start) * progress;
@@ -82,6 +83,13 @@ export function SiteHeader() {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setIsOpen(false);
     };
+
+    // Keep the mobile header static. Animating the dimensions and shadow of a
+    // sticky, rounded and blurred element causes expensive repaints in WebKit.
+    if (mobileOrTouch) {
+      window.addEventListener("keydown", closeOnEscape);
+      return () => window.removeEventListener("keydown", closeOnEscape);
+    }
 
     targetProgress = clamp((window.scrollY - 8) / 152);
     currentProgress = targetProgress;

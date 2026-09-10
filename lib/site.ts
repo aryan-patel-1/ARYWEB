@@ -13,7 +13,7 @@ export const siteConfig = {
     ? configuredUrl
     : productionUrl,
   description:
-    "AryWeb crée des sites vitrines et e-commerce accessibles pour indépendants, artisans et commerces à Vincennes et en Île-de-France. Devis gratuit.",
+    "AryWeb crée des sites vitrines et e-commerce accessibles pour indépendants, artisans et commerces à Paris et en Île-de-France. Devis gratuit.",
 };
 
 export const navigation = [
