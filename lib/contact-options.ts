@@ -14,3 +14,10 @@ export const budgetRanges = [
   "1 000 € – 2 000 €",
   "Plus de 2 000 €",
 ] as const;
+
+export const paymentPreferences = [
+  "À définir ensemble",
+  "Comptant",
+  "Abonnement mensuel",
+  "Abonnement annuel",
+] as const;

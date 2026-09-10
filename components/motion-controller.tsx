@@ -1,40 +1,43 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef } from "react";
 
 export function MotionController() {
   const progressRef = useRef<HTMLSpanElement>(null);
+  const pathname = usePathname();
 
   useLayoutEffect(() => {
     const root = document.documentElement;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobileOrTouch = window.matchMedia("(pointer: coarse), (max-width: 820px)").matches;
     const revealItems = [...document.querySelectorAll<HTMLElement>("[data-reveal]")];
+    let observer: IntersectionObserver | null = null;
 
-    if (reducedMotion || !("IntersectionObserver" in window)) {
+    if (reducedMotion || mobileOrTouch || !("IntersectionObserver" in window)) {
       revealItems.forEach((item) => item.setAttribute("data-in-view", "true"));
-      return;
+    } else {
+      const waitingItems = revealItems.filter((item) => {
+        if (item.getBoundingClientRect().top < window.innerHeight * 0.94) {
+          item.setAttribute("data-in-view", "initial");
+          return false;
+        }
+        return true;
+      });
+      root.classList.add("motion-ready");
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.setAttribute("data-in-view", "true");
+            observer?.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -7%" },
+      );
+
+      waitingItems.forEach((item) => observer?.observe(item));
     }
-
-    const waitingItems = revealItems.filter((item) => {
-      if (item.getBoundingClientRect().top < window.innerHeight * 0.94) {
-        item.setAttribute("data-in-view", "initial");
-        return false;
-      }
-      return true;
-    });
-    root.classList.add("motion-ready");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.setAttribute("data-in-view", "true");
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -7%" },
-    );
-
-    waitingItems.forEach((item) => observer.observe(item));
 
     let animationFrame = 0;
     const updateProgress = () => {
@@ -55,14 +58,14 @@ export function MotionController() {
     if (resizeObserver) resizeObserver.observe(document.body);
 
     return () => {
-      observer.disconnect();
+      observer?.disconnect();
       resizeObserver?.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       if (animationFrame) cancelAnimationFrame(animationFrame);
       root.classList.remove("motion-ready");
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <div className="scroll-progress" aria-hidden="true">

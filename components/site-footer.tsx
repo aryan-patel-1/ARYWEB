@@ -6,16 +6,16 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-main">
         <div className="footer-brand-block">
-          <a className="brand" href="#top" aria-label="AryWeb — Retour en haut">
+          <Link className="brand" href="/" aria-label="AryWeb — Accueil" prefetch={false}>
             ARY<span>WEB</span>
-          </a>
+          </Link>
           <p>Sites web et cartes NFC à tarifs accessibles pour indépendants, artisans et commerces.</p>
         </div>
 
         <nav className="footer-nav" aria-label="Navigation de pied de page">
           <p>Navigation</p>
           {navigation.map((item) => (
-            <a href={item.href} key={item.href}>{item.label}</a>
+            <Link href={item.href} key={item.href} prefetch={false}>{item.label}</Link>
           ))}
         </nav>
 
@@ -29,9 +29,9 @@ export function SiteFooter() {
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} AryWeb. Tous droits réservés.</p>
         <div>
-          <Link href="/mentions-legales">Mentions légales</Link>
-          <Link href="/cgv">CGV</Link>
-          <Link href="/confidentialite">Confidentialité</Link>
+          <Link href="/mentions-legales" prefetch={false}>Mentions légales</Link>
+          <Link href="/cgv" prefetch={false}>CGV</Link>
+          <Link href="/confidentialite" prefetch={false}>Confidentialité</Link>
         </div>
       </div>
     </footer>

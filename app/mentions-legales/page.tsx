@@ -19,7 +19,7 @@ export default function LegalNoticePage() {
       <main className="legal-content">
         <p className="eyebrow">Informations du site</p>
         <h1>Mentions légales</h1>
-        <p className="legal-updated">Dernière mise à jour : 28 août 2026</p>
+        <p className="legal-updated">Dernière mise à jour : 10 septembre 2026</p>
 
         {!legalConfigIsComplete && (
           <p className="legal-warning" role="status">

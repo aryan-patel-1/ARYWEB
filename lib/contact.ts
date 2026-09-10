@@ -1,4 +1,4 @@
-import { budgetRanges, projectTypes } from "./contact-options";
+import { budgetRanges, paymentPreferences, projectTypes } from "./contact-options";
 
 export type ContactPayload = {
   name: string;
@@ -6,6 +6,7 @@ export type ContactPayload = {
   phone: string;
   projectType: string;
   budget: string;
+  paymentPreference: string;
   message: string;
   website: string;
 };
@@ -29,6 +30,7 @@ export function normalizeContactPayload(input: unknown): ContactPayload {
     phone: singleLineValue("phone"),
     projectType: singleLineValue("projectType"),
     budget: singleLineValue("budget"),
+    paymentPreference: singleLineValue("paymentPreference"),
     message: stringValue("message"),
     website: stringValue("website"),
   };
@@ -51,6 +53,12 @@ export function validateContactPayload(payload: ContactPayload) {
   }
   if (payload.budget && !budgetRanges.includes(payload.budget as (typeof budgetRanges)[number])) {
     errors.budget = "Choisissez une fourchette proposée.";
+  }
+  if (
+    payload.paymentPreference
+    && !paymentPreferences.includes(payload.paymentPreference as (typeof paymentPreferences)[number])
+  ) {
+    errors.paymentPreference = "Choisissez un mode de paiement proposé.";
   }
   if (payload.message.length < 20 || payload.message.length > 2000) {
     errors.message = "Décrivez votre projet en 20 à 2 000 caractères.";

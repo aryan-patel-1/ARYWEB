@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const deliverables = [
   {
     title: "Des pages organisées autour de vos contenus",
@@ -27,7 +29,7 @@ export function ValueSection() {
           Le design attire l’œil. La structure, les mots et les détails techniques
           font le reste du travail.
         </p>
-        <a className="text-link" href="#contact">Faire le point sur mon besoin <span aria-hidden="true">↗</span></a>
+        <Link className="text-link" href="/contact" prefetch={false}>Faire le point sur mon besoin <span aria-hidden="true">↗</span></Link>
       </div>
 
       <div className="delivery-sheet" data-reveal data-reveal-delay="1">

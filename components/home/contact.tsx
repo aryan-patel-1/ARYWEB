@@ -7,7 +7,7 @@ export function Contact() {
     <section className="contact section section-space" id="contact" aria-labelledby="contact-title">
       <div className="contact-intro" data-reveal>
         <p className="eyebrow">On en parle ?</p>
-        <h2 id="contact-title">Votre projet peut commencer par une simple idée.</h2>
+        <h1 id="contact-title">Votre projet peut commencer par une simple idée.</h1>
         <p>
           Dites-moi ce que vous faites, où vous en êtes aujourd’hui et ce que vous
           aimeriez obtenir. Je vous réponds par e-mail pour organiser la suite.

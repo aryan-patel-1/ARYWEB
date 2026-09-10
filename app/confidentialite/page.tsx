@@ -31,7 +31,8 @@ export default function PrivacyPage() {
           <h2>Données et finalité</h2>
           <p>
             Le formulaire collecte votre nom, votre adresse e-mail, et, si vous choisissez de les
-            communiquer, votre téléphone, votre budget et les informations décrivant votre projet.
+            communiquer, votre téléphone, votre budget, votre préférence de paiement et les
+            informations décrivant votre projet.
             Les champs signalés par un astérisque sont indispensables pour traiter la demande ;
             les autres sont facultatifs. Ces données sont utilisées uniquement pour étudier votre
             demande et vous répondre.

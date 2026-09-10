@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowIcon, NfcIcon } from "@/components/icons";
 
 const nfcSteps = [
@@ -11,7 +12,7 @@ export function NfcSection() {
     <section className="nfc-section section section-space" id="nfc" aria-labelledby="nfc-title">
       <div className="nfc-copy" data-reveal>
         <p className="eyebrow">Cartes de contact NFC</p>
-        <h2 id="nfc-title">Le bon lien, directement sur le téléphone.</h2>
+        <h1 id="nfc-title">Le bon lien, directement sur le téléphone.</h1>
         <p className="nfc-lead">
           Une carte NFC peut ouvrir votre site, une page de contact, un menu ou un
           formulaire lorsqu’on l’approche d’un smartphone compatible.
@@ -27,9 +28,9 @@ export function NfcSection() {
           ))}
         </ol>
 
-        <a className="button button-ghost" href="#contact">
+        <Link className="button button-ghost" href="/contact" prefetch={false}>
           Parler d’une carte NFC <ArrowIcon />
-        </a>
+        </Link>
       </div>
 
       <div className="nfc-demo" data-reveal data-reveal-delay="1" role="img" aria-label="Schéma d’une carte NFC utilisée avec un téléphone">

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { faqItems } from "@/lib/site";
 
 export function Faq() {
@@ -5,9 +6,9 @@ export function Faq() {
     <section className="faq section section-space" id="faq" aria-labelledby="faq-title">
       <div className="faq-intro" data-reveal>
         <p className="eyebrow">Questions fréquentes</p>
-        <h2 id="faq-title">Avant de se lancer.</h2>
+        <h1 id="faq-title">Avant de se lancer.</h1>
         <p>Les réponses aux questions que l’on se pose généralement avant le premier échange.</p>
-        <a className="button button-ghost" href="#contact">Poser ma question</a>
+        <Link className="button button-ghost" href="/contact" prefetch={false}>Poser ma question</Link>
       </div>
 
       <div className="faq-list" data-reveal data-reveal-delay="1">

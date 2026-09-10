@@ -15,7 +15,7 @@ export function About() {
 
       <div className="about-copy" data-reveal data-reveal-delay="1">
         <p className="eyebrow">Ma façon de travailler</p>
-        <h2 id="about-title">Vous échangez directement avec moi, du premier message à la mise en ligne.</h2>
+        <h1 id="about-title">Vous échangez directement avec moi, du premier message à la mise en ligne.</h1>
         <p className="about-lead">
           Je développe AryWeb en parallèle de mes études. Cette organisation légère me
           permet de proposer des tarifs accessibles et de rester votre interlocuteur direct.

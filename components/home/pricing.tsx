@@ -1,26 +1,37 @@
+import Link from "next/link";
 import { ArrowIcon, CheckIcon } from "@/components/icons";
-import { pricingPlans } from "@/lib/site";
+import { paymentOptions, pricingPlans } from "@/lib/site";
 
 export function Pricing() {
   return (
     <section className="pricing section section-space" id="tarifs" aria-labelledby="pricing-title">
       <div className="section-heading pricing-heading" data-reveal>
         <div>
-          <p className="eyebrow">Tarifs accessibles</p>
-          <h2 id="pricing-title">Commencer par l’essentiel, sans gonfler le devis.</h2>
+          <p className="eyebrow">Tarifs & paiement</p>
+          <h1 id="pricing-title">Une offre claire, avec un rythme de paiement adapté.</h1>
         </div>
         <p>
-          Je développe AryWeb en parallèle de mes études. Ma structure légère me permet
-          de proposer des formats adaptés aux petits budgets, avec un périmètre précis.
+          Le prix dépend du périmètre réel. Après validation du devis, vous réglez
+          comptant ou choisissez une formule récurrente mensuelle ou annuelle.
         </p>
       </div>
 
       <div className="budget-callout" data-reveal>
-        <span>Petit budget bienvenu</span>
+        <span>Trois façons de régler</span>
         <p>
-          Donnez-moi votre limite dès le premier échange. Je vous indique ce qui peut
-          être fait maintenant et ce qui peut attendre une prochaine étape.
+          Aucun paiement n’est demandé avant d’avoir cadré le projet. Le devis indique
+          le montant, ce qui est inclus et les conditions correspondant au rythme choisi.
         </p>
+      </div>
+
+      <div className="payment-options" aria-label="Modes de paiement proposés">
+        {paymentOptions.map((option, index) => (
+          <article className="payment-option" key={option.title} data-reveal data-reveal-delay={index + 1}>
+            <div><span>{option.number}</span><small>{option.cadence}</small></div>
+            <h3>{option.title}</h3>
+            <p>{option.text}</p>
+          </article>
+        ))}
       </div>
 
       <div className="pricing-grid">
@@ -39,16 +50,16 @@ export function Pricing() {
               <ul>
                 {plan.features.map((feature) => <li key={feature}><CheckIcon />{feature}</li>)}
               </ul>
-              <a href="#contact">Parler de cette offre <ArrowIcon /></a>
+              <Link href="/contact" prefetch={false}>Parler de cette offre <ArrowIcon /></Link>
             </article>
           );
         })}
       </div>
 
       <p className="pricing-note" data-reveal>
-        Un tarif « à partir de » correspond au périmètre indiqué dans l’offre. Le devis
-        confirme le montant final, le régime de TVA et les éventuels frais de domaine,
-        d’hébergement, d’outils ou de livraison.
+        Le mensuel et l’annuel sont des abonnements liés à des services récurrents : ils
+        ne correspondent pas au paiement échelonné du prix de création. Le devis confirme
+        le montant final, la durée, la résiliation, le régime de TVA et les éventuels frais tiers.
       </p>
     </section>
   );

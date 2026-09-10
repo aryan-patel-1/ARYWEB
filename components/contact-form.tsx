@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { ArrowIcon, CheckIcon } from "@/components/icons";
-import { budgetRanges, projectTypes } from "@/lib/site";
+import { budgetRanges, paymentPreferences, projectTypes } from "@/lib/site";
 import {
   normalizeContactPayload,
   validateContactPayload,
@@ -40,6 +40,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
       phone: formData.get("phone"),
       projectType: formData.get("projectType"),
       budget: formData.get("budget"),
+      paymentPreference: formData.get("paymentPreference"),
       message: formData.get("message"),
       website: formData.get("website"),
     });
@@ -49,6 +50,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
       `Téléphone : ${field("phone") || "Non renseigné"}`,
       `Projet : ${field("projectType")}`,
       `Budget : ${field("budget") || "Non renseigné"}`,
+      `Paiement souhaité : ${field("paymentPreference") || "À définir ensemble"}`,
       "",
       field("message"),
     ].join("\n");
@@ -90,6 +92,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
           phone: payload.phone,
           project: payload.projectType,
           budget: payload.budget,
+          payment_preference: payload.paymentPreference,
           message: payload.message,
         }),
       });
@@ -180,19 +183,36 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
         </label>
       </div>
 
-      <label>
-        <span>Budget envisagé <small>facultatif</small></span>
-        <select
-          name="budget"
-          defaultValue=""
-          aria-invalid={Boolean(errors.budget)}
-          aria-describedby={errors.budget ? "budget-error" : undefined}
-        >
-          <option value="">Choisir une fourchette</option>
-          {budgetRanges.map((budget) => <option value={budget} key={budget}>{budget}</option>)}
-        </select>
-        {fieldError("budget")}
-      </label>
+      <div className="form-row">
+        <label>
+          <span>Budget envisagé <small>facultatif</small></span>
+          <select
+            name="budget"
+            defaultValue=""
+            aria-invalid={Boolean(errors.budget)}
+            aria-describedby={errors.budget ? "budget-error" : undefined}
+          >
+            <option value="">Choisir une fourchette</option>
+            {budgetRanges.map((budget) => <option value={budget} key={budget}>{budget}</option>)}
+          </select>
+          {fieldError("budget")}
+        </label>
+        <label>
+          <span>Paiement souhaité <small>facultatif</small></span>
+          <select
+            name="paymentPreference"
+            defaultValue=""
+            aria-invalid={Boolean(errors.paymentPreference)}
+            aria-describedby={errors.paymentPreference ? "paymentPreference-error" : undefined}
+          >
+            <option value="">Choisir une préférence</option>
+            {paymentPreferences.map((preference) => (
+              <option value={preference} key={preference}>{preference}</option>
+            ))}
+          </select>
+          {fieldError("paymentPreference")}
+        </label>
+      </div>
 
       <label>
         <span>Parlez-moi de votre projet <b aria-hidden="true">*</b></span>
@@ -218,7 +238,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
       <p className="form-privacy">
         AryWeb utilise vos informations uniquement pour étudier votre demande et vous répondre.
         Les champs marqués d’un astérisque sont obligatoires.{" "}
-        <Link href="/confidentialite">En savoir plus sur vos données et vos droits</Link>.
+        <Link href="/confidentialite" prefetch={false}>En savoir plus sur vos données et vos droits</Link>.
       </p>
 
       <div className="form-submit-row">

@@ -59,7 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;var s=sessionStorage.getItem('aryweb-intro-seen');document.documentElement.classList.add(!r&&!s?'intro-play':'intro-seen');if(!s)sessionStorage.setItem('aryweb-intro-seen','1')}catch(e){document.documentElement.classList.add('intro-seen')}})();`,
+            __html: `(function(){try{var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;var m=window.matchMedia('(pointer: coarse), (max-width: 820px)').matches;var s=sessionStorage.getItem('aryweb-intro-seen');document.documentElement.classList.add(!r&&!m&&!s?'intro-play':'intro-seen');if(!s)sessionStorage.setItem('aryweb-intro-seen','1')}catch(e){document.documentElement.classList.add('intro-seen')}})();`,
           }}
         />
       </head>

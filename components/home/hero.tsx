@@ -1,10 +1,11 @@
+import Link from "next/link";
 import { ArrowIcon } from "@/components/icons";
 import { HeroVisual } from "@/components/home/hero-visual";
 import { siteConfig } from "@/lib/site";
 
 const marqueeItems = [
-  "Sites vitrines",
-  "Boutiques en ligne",
+  "Réalisations concrètes",
+  "Paiement flexible",
   "Cartes NFC",
   "Tarifs accessibles",
 ];
@@ -32,12 +33,12 @@ export function Hero() {
             cartes NFC avec des formats pensés pour les petits budgets et un suivi direct.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#contact">
+            <Link className="button button-primary" href="/contact" prefetch={false}>
               Parler de mon projet <ArrowIcon />
-            </a>
-            <a className="button button-ghost" href="#methode">
+            </Link>
+            <Link className="button button-ghost" href="/methode" prefetch={false}>
               Voir comment je travaille
-            </a>
+            </Link>
           </div>
           <ul className="hero-proof" aria-label="Façon de travailler">
             <li><span>01</span> Périmètre adapté au budget</li>
@@ -50,7 +51,7 @@ export function Hero() {
       </section>
 
       <div className="marquee" aria-label="Engagements AryWeb">
-        <p className="sr-only">Sites vitrines, boutiques en ligne, cartes NFC et tarifs accessibles.</p>
+        <p className="sr-only">Réalisations concrètes, paiement flexible, cartes NFC et tarifs accessibles.</p>
         <div className="marquee-track" aria-hidden="true">
           {marqueeItems.map((item, index) => (
             <span key={`${item}-${index}`}>{item}<i>✳</i></span>

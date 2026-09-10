@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowIcon } from "@/components/icons";
 import { navigation } from "@/lib/site";
@@ -7,6 +9,8 @@ import { navigation } from "@/lib/site";
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
+  const currentPath = pathname.replace(/\/+$/, "") || "/";
 
   useEffect(() => {
     let animationFrame = 0;
@@ -100,21 +104,31 @@ export function SiteHeader() {
         aria-label="Navigation principale"
         ref={headerRef}
       >
-        <a className="brand" href="#top" aria-label="AryWeb — Accueil">
+        <Link className="brand" href="/" aria-label="AryWeb — Accueil" prefetch={false}>
           ARY<span>WEB</span>
-        </a>
+        </Link>
 
         <nav className="desktop-nav" aria-label="Navigation principale">
           {navigation.map((item) => (
-            <a href={item.href} key={item.href}>
+            <Link
+              aria-current={currentPath === item.href ? "page" : undefined}
+              href={item.href}
+              key={item.href}
+              prefetch={false}
+            >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        <a className="header-cta" href="#contact">
+        <Link
+          aria-current={currentPath === "/contact" ? "page" : undefined}
+          className="header-cta"
+          href="/contact"
+          prefetch={false}
+        >
           Parler de mon projet <ArrowIcon />
-        </a>
+        </Link>
 
         <button
           className="menu-toggle"
@@ -132,15 +146,27 @@ export function SiteHeader() {
         <div className={`mobile-panel ${isOpen ? "is-open" : ""}`} id="mobile-navigation">
           <nav aria-label="Navigation mobile">
             {navigation.map((item) => (
-              <a href={item.href} key={item.href} onClick={() => setIsOpen(false)}>
+              <Link
+                aria-current={currentPath === item.href ? "page" : undefined}
+                href={item.href}
+                key={item.href}
+                onClick={() => setIsOpen(false)}
+                prefetch={false}
+              >
                 {item.label}
                 <span aria-hidden="true">↗</span>
-              </a>
+              </Link>
             ))}
-            <a className="mobile-contact" href="#contact" onClick={() => setIsOpen(false)}>
+            <Link
+              aria-current={currentPath === "/contact" ? "page" : undefined}
+              className="mobile-contact"
+              href="/contact"
+              onClick={() => setIsOpen(false)}
+              prefetch={false}
+            >
               Parler de mon projet
               <ArrowIcon />
-            </a>
+            </Link>
           </nav>
         </div>
       </header>
