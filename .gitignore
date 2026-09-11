@@ -10,11 +10,9 @@ dist/
 # Secrets and local environment variables
 .env
 .env.*
-!.env.example
 .envrc
 .dev.vars
 .dev.vars.*
-!.dev.vars.example
 .wrangler/
 .direnv/
 .npmrc

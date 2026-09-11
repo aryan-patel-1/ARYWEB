@@ -20,6 +20,7 @@ test("admin access fails closed without configuration or JWT", async () => {
 test("test deployment cannot use a live secret or a missing secret", () => {
   assert.throws(() => stripeClient(env));
   assert.throws(() => stripeClient({ ...env, STRIPE_SECRET_KEY: "sk_live_invalid_example" }));
+  assert.throws(() => stripeClient({ ...env, STRIPE_MODE: "live", STRIPE_SECRET_KEY: "sk_test_invalid_example" }));
 });
 test("API rejects cross-origin requests, oversized payloads and invalid JSON", async () => {
   const request = (origin: string, payload: string) => new Request(`${env.SITE_ORIGIN}/api/admin`, { method: "POST", headers: { Origin: origin, "Content-Type": "application/json" }, body: payload });
