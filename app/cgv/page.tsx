@@ -52,12 +52,15 @@ export default function TermsPage() {
         <section>
           <h2>3. Devis et formation du contrat</h2>
           <p>
-            Toute prestation fait l’objet d’un devis précisant son contenu, son prix, ses délais
+            Les prestations sur mesure font l’objet d’un devis précisant leur contenu, leur prix, leurs délais
             estimatifs et ses éventuelles conditions particulières. Le contrat est formé lorsque
             le client accepte le devis selon les modalités qui y sont indiquées et, lorsqu’un
             acompte est prévu, après son encaissement. Toute demande hors périmètre fait l’objet
             d’un accord complémentaire ou d’un nouveau devis.
           </p>
+          <p>Les cartes NFC à prix fixe font l’objet d’un formulaire de commande préalable au paiement.
+            La commande est confirmée après validation du paiement. Les prestations de création de
+            contenu et de design de cartes de visite ou de fidélité sont chiffrées sur devis.</p>
         </section>
 
         <section>
@@ -65,8 +68,9 @@ export default function TermsPage() {
           <p>
             Les prix et le régime de TVA applicable sont indiqués sur le devis et la facture.
             Conditions d’acompte : {legalConfig.depositTerms}. Conditions de paiement :
-            {" "}{legalConfig.paymentTerms}. Les frais de nom de domaine, d’hébergement, de
-            paiement, de licences et de services tiers ne sont inclus que si le devis le mentionne.
+            {" "}{legalConfig.paymentTerms}. Toute création de site AryWeb comprend séparément
+            un abonnement obligatoire de 20 euros par an pour le serveur, l’hébergement et le nom
+            de domaine. Les licences ou autres services tiers ne sont inclus que si le devis le mentionne.
           </p>
           <p>
             Pour un client professionnel, tout retard peut entraîner les pénalités indiquées sur
@@ -123,7 +127,10 @@ export default function TermsPage() {
           <h2>9. Annulation et résiliation</h2>
           <p>
             Toute interruption demandée par le client entraîne le paiement des prestations déjà
-            réalisées et des frais engagés.
+            réalisées et des frais engagés. L’abonnement serveur, hébergement et nom de domaine
+            est renouvelé annuellement jusqu’à résiliation selon le délai indiqué dans le devis.
+            Le devis précise également les conséquences de la résiliation sur la disponibilité du
+            site et la gestion du nom de domaine.
             En cas de manquement grave par une partie, l’autre partie peut mettre fin au contrat après
             une mise en demeure restée sans effet dans un délai raisonnable, sans préjudice des sommes
             déjà dues et des éventuels dommages démontrés.

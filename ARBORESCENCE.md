@@ -4,10 +4,10 @@
 aryweb-vscode/
 ├── app/
 │   ├── a-propos/page.tsx
-│   ├── cartes-nfc/page.tsx
 │   ├── cgv/page.tsx
 │   ├── confidentialite/page.tsx
 │   ├── contact/page.tsx
+│   ├── devis/page.tsx
 │   ├── faq/page.tsx
 │   ├── mentions-legales/page.tsx
 │   ├── methode/page.tsx
@@ -29,12 +29,12 @@ aryweb-vscode/
 │   │   ├── hero-visual.tsx
 │   │   ├── hero.tsx
 │   │   ├── home-directory.tsx
-│   │   ├── nfc-section.tsx
 │   │   ├── pricing.tsx
 │   │   ├── process.tsx
 │   │   ├── projects.tsx
 │   │   └── value-section.tsx
 │   ├── contact-form.tsx
+│   ├── quote-form.tsx
 │   ├── icons.tsx
 │   ├── intro-loader.tsx
 │   ├── legal-header.tsx
@@ -47,6 +47,7 @@ aryweb-vscode/
 │   ├── contact.ts
 │   ├── legal.ts
 │   ├── metadata.ts
+│   ├── business.ts
 │   └── site.ts
 ├── public/
 │   ├── aryweb-avatar.webp

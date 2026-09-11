@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       <main className="legal-content">
         <p className="eyebrow">Protection des données</p>
         <h1>Politique de confidentialité</h1>
-        <p className="legal-updated">Dernière mise à jour : 31 août 2026</p>
+        <p className="legal-updated">Dernière mise à jour : 11 septembre 2026</p>
 
         <section>
           <h2>Responsable du traitement</h2>
@@ -30,9 +30,12 @@ export default function PrivacyPage() {
         <section>
           <h2>Données et finalité</h2>
           <p>
-            Le formulaire collecte votre nom, votre adresse e-mail, et, si vous choisissez de les
-            communiquer, votre téléphone, votre budget, votre préférence de paiement et les
-            informations décrivant votre projet.
+            Les formulaires collectent votre nom, votre adresse e-mail et les informations décrivant
+            votre projet. Votre entreprise et votre SIRET sont demandés car les prestations sont
+            réservées aux professionnels. Selon le formulaire utilisé, votre téléphone, votre budget
+            et votre préférence de paiement peuvent également être recueillis. Pour une carte NFC,
+            le lien à encoder, les précisions de personnalisation et la quantité sont transmis à Stripe
+            avec la commande ; les coordonnées de facturation et de livraison sont collectées lors du paiement.
             Les champs signalés par un astérisque sont indispensables pour traiter la demande ;
             les autres sont facultatifs. Ces données sont utilisées uniquement pour étudier votre
             demande et vous répondre.
@@ -50,13 +53,21 @@ export default function PrivacyPage() {
         <section>
           <h2>Destinataires et conservation</h2>
           <p>
-            Les informations sont destinées à AryWeb. Formspree intervient comme sous-traitant pour
+            Les informations des formulaires sont destinées à AryWeb. Formspree intervient comme sous-traitant pour
             recevoir les soumissions, les conserver dans son interface et transmettre les
             notifications associées. Formspree indique s’appuyer sur des clauses contractuelles
             types pour encadrer les transferts de données. Les données ne sont ni vendues ni
             utilisées pour de la prospection sans votre accord. Une demande sans suite est supprimée
             au plus tard douze mois après le dernier échange. Les échanges liés à un contrat peuvent
             être conservés pendant les durées imposées par les obligations légales.
+          </p>
+          <p>
+            Si vous ouvrez une page de paiement, Stripe collecte les coordonnées et données de
+            transaction nécessaires au paiement, à la facturation et à la prévention de la fraude.
+            AryWeb ne reçoit pas votre numéro de carte complet. Consultez la{" "}
+            <a href="https://stripe.com/fr/privacy" rel="noreferrer" target="_blank">
+              politique de confidentialité de Stripe
+            </a>.
           </p>
         </section>
 

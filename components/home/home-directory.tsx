@@ -11,29 +11,23 @@ const pages = [
   {
     number: "02",
     title: "Tarifs & paiement",
-    text: "Consultez les prix de départ et les possibilités de règlement comptant, mensuel ou annuel.",
+    text: "Comprenez le devis personnalisé et consultez les deux seuls prix fixes proposés.",
     href: "/tarifs",
   },
   {
     number: "03",
-    title: "Cartes NFC",
-    text: "Voyez comment une carte peut ouvrir votre site, vos coordonnées, un menu ou un formulaire.",
-    href: "/cartes-nfc",
-  },
-  {
-    number: "04",
     title: "Méthode",
     text: "Suivez les étapes du premier échange jusqu’aux vérifications et à la mise en ligne.",
     href: "/methode",
   },
   {
-    number: "05",
+    number: "04",
     title: "À propos",
     text: "Découvrez qui se trouve derrière AryWeb et la manière dont j’accompagne chaque projet.",
     href: "/a-propos",
   },
   {
-    number: "06",
+    number: "05",
     title: "Questions fréquentes",
     text: "Retrouvez les réponses utiles sur les délais, le prix, les contenus et le suivi du site.",
     href: "/faq",
@@ -46,7 +40,7 @@ export function HomeDirectory() {
       <div className="section-heading" data-reveal>
         <div>
           <p className="eyebrow">Explorer AryWeb</p>
-          <h2 id="directory-title">Chaque sujet a maintenant sa propre page.</h2>
+          <h2 id="directory-title">Découvrez mon travail et préparons votre projet.</h2>
         </div>
         <p>
           Allez directement aux réalisations, aux tarifs ou à la méthode, puis contactez-moi
@@ -57,7 +51,7 @@ export function HomeDirectory() {
       <div className="home-directory-grid">
         {pages.map((page, index) => (
           <Link
-            className="directory-card"
+            className={`directory-card${index === 0 ? " directory-card-featured" : ""}`}
             href={page.href}
             key={page.href}
             prefetch={false}
@@ -73,8 +67,8 @@ export function HomeDirectory() {
       </div>
 
       <div className="home-directory-cta" data-reveal>
-        <p><strong>Vous avez déjà une idée précise ?</strong> Présentez-moi directement votre besoin.</p>
-        <Link href="/contact" prefetch={false}>Parler de mon projet <ArrowIcon /></Link>
+        <p><strong>Vous avez déjà une idée précise ?</strong> Décrivez votre besoin pour préparer le devis.</p>
+        <Link href="/devis" prefetch={false}>Demander un devis <ArrowIcon /></Link>
       </div>
     </section>
   );

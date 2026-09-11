@@ -6,17 +6,17 @@ export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   const marketingPages = [
     "realisations",
-    "cartes-nfc",
     "tarifs",
     "methode",
     "a-propos",
     "faq",
+    "devis",
     "contact",
   ].map((path) => ({
     url: `${siteConfig.url}/${path}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
-    priority: path === "contact" ? 0.8 : 0.7,
+    priority: path === "devis" ? 0.9 : path === "contact" ? 0.8 : 0.7,
   }));
 
   const pages: MetadataRoute.Sitemap = [

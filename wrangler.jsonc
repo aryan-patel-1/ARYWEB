@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "aryweb",
+  "pages_build_output_dir": "./out",
+  "compatibility_date": "2026-09-11",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "SITE_ORIGIN": "https://aryweb.fr",
+    "STRIPE_MODE": "test",
+    "ACCESS_TEAM_DOMAIN": "green-union-b317.cloudflareaccess.com",
+    "ACCESS_AUD": "97f7ee23b656ba720b346b83b13e7cf6a9aab45e8632f7f23f057ad5af9c10d0",
+    "ADMIN_EMAIL": "aryweb15@gmail.com"
+  }
+}

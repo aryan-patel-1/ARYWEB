@@ -13,12 +13,43 @@ export const siteConfig = {
     ? configuredUrl
     : productionUrl,
   description:
-    "AryWeb crée des sites vitrines et e-commerce accessibles pour indépendants, artisans et commerces à Paris et en Île-de-France. Devis gratuit.",
+    "AryWeb crée des sites internet sur mesure pour indépendants, artisans et commerces à Paris et en Île-de-France. Devis personnalisé.",
 };
+
+export type StripeCheckoutMode = "disabled" | "test" | "live";
+
+const configuredStripeMode = process.env.NEXT_PUBLIC_STRIPE_MODE;
+
+export const stripeCheckout = {
+  mode: (configuredStripeMode === "test" || configuredStripeMode === "live"
+    ? configuredStripeMode
+    : "disabled") as StripeCheckoutMode,
+  links: {
+    nfc: process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_NFC ?? "",
+    hosting: process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_HOSTING ?? "",
+  },
+};
+
+function getStripePaymentLink(value: string) {
+  if (stripeCheckout.mode === "disabled" || !value) return null;
+
+  try {
+    const url = new URL(value);
+    const isStripeLink = url.protocol === "https:" && url.hostname === "buy.stripe.com";
+    const isTestLink = url.pathname.startsWith("/test_");
+
+    if (!isStripeLink) return null;
+    if (stripeCheckout.mode === "test" && !isTestLink) return null;
+    if (stripeCheckout.mode === "live" && isTestLink) return null;
+
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
 
 export const navigation = [
   { label: "Réalisations", href: "/realisations" },
-  { label: "Cartes NFC", href: "/cartes-nfc" },
   { label: "Tarifs", href: "/tarifs" },
   { label: "Méthode", href: "/methode" },
   { label: "À propos", href: "/a-propos" },
@@ -29,30 +60,9 @@ export const services = [
   {
     number: "01",
     icon: "window",
-    title: "Site vitrine",
-    text: "Pour expliquer votre offre, montrer ce qui vous distingue et permettre de vous contacter facilement.",
-    features: ["Structure des pages", "Design et développement", "Mise en ligne"],
-  },
-  {
-    number: "02",
-    icon: "bag",
-    title: "E-commerce",
-    text: "Pour présenter vos produits et rendre l’achat simple, du catalogue au paiement.",
-    features: ["Catalogue organisé", "Parcours d’achat", "Prise en main"],
-  },
-  {
-    number: "03",
-    icon: "spark",
-    title: "Refonte",
-    text: "Votre site existe déjà ? Je reprends sa structure, son apparence ou son fonctionnement en gardant ce qui fonctionne.",
-    features: ["État des lieux", "Nouvelle direction", "Migration accompagnée"],
-  },
-  {
-    number: "04",
-    icon: "nfc",
-    title: "Carte de contact NFC",
-    text: "Une carte à approcher d’un smartphone compatible pour ouvrir votre site, vos coordonnées ou le lien choisi.",
-    features: ["Lien défini ensemble", "Encodage et vérification", "Personnalisation sur devis"],
+    title: "Création de site internet",
+    text: "Une seule offre, adaptée au besoin réel : présentation, catalogue, vente en ligne, réservation, refonte ou fonctions sur mesure.",
+    features: ["Périmètre défini ensemble", "Design et développement", "Prix personnalisé sur devis"],
   },
 ] as const;
 
@@ -114,35 +124,48 @@ export const projects = [
 export const pricingPlans = [
   {
     number: "01",
-    title: "Site vitrine",
-    price: process.env.NEXT_PUBLIC_PRICE_SHOWCASE || "249 €",
-    billing: "Comptant ou avec abonnement",
-    text: "Pour présenter clairement votre activité et faciliter la prise de contact.",
-    features: ["Jusqu’à 3 pages", "Affichage mobile vérifié", "Mise en ligne accompagnée"],
+    title: "Création de site internet",
+    price: "Sur devis",
+    billing: "Comptant, mensuel ou annuel selon le devis",
+    text: "Un seul accompagnement web, dimensionné selon vos pages, vos contenus et les fonctions réellement nécessaires.",
+    features: ["Nouveau site ou refonte", "Options choisies selon le besoin", "Chiffrage après étude du projet"],
+    paymentLink: null,
+    ctaHref: "/devis",
+    ctaLabel: "Demander un devis",
   },
   {
     number: "02",
-    title: "E-commerce",
-    price: process.env.NEXT_PUBLIC_PRICE_ECOMMERCE || "499 €",
-    billing: "Comptant ou avec abonnement",
-    text: "Pour vendre en ligne avec un catalogue et un parcours adaptés à vos besoins.",
-    features: ["Jusqu’à 10 produits", "Paiement en ligne", "Prise en main"],
+    title: "Carte NFC",
+    price: "24,90 €",
+    billing: "Par carte — paiement unique, sans abonnement",
+    text: "Pour partager un lien ou vos coordonnées avec un support physique simple.",
+    features: ["Une carte NFC", "Lien défini ensemble", "Encodage vérifié"],
+    paymentLink: null,
+    ctaHref: "#commander-nfc",
+    ctaLabel: "Préparer ma carte",
   },
   {
     number: "03",
-    title: "Refonte",
-    price: process.env.NEXT_PUBLIC_PRICE_REDESIGN || "Sur devis",
-    billing: "Modalités définies au devis",
-    text: "Pour améliorer l’existant sans repartir inutilement de zéro.",
-    features: ["État des lieux", "Priorités définies ensemble", "Migration accompagnée"],
+    title: "Serveur + domaine",
+    price: "20 €",
+    billing: "Par an — renouvellement automatique",
+    text: "L’abonnement technique obligatoire pour chaque site AryWeb : serveur, hébergement et nom de domaine.",
+    features: ["20 € facturés chaque année", "Obligatoire avec un site AryWeb", "Conditions précisées dans le devis"],
+    paymentLink: getStripePaymentLink(stripeCheckout.links.hosting),
+    ctaHref: "/contact",
+    ctaLabel: "Poser une question",
   },
   {
-    number: "04",
-    title: "Carte NFC",
-    price: process.env.NEXT_PUBLIC_PRICE_NFC || "24,90 €",
-    billing: "Par carte",
-    text: "Pour partager un lien ou vos coordonnées avec un support physique simple.",
-    features: ["Une carte NFC", "Lien défini ensemble", "Encodage vérifié"],
+    number: "04", title: "Contenu pour les réseaux sociaux", price: "Sur devis",
+    billing: "Selon votre projet", text: "Des contenus visuels adaptés à votre activité et à vos réseaux sociaux.",
+    features: ["Publications et stories", "Identité visuelle cohérente", "Formats adaptés à vos réseaux"],
+    paymentLink: null, ctaHref: "/devis", ctaLabel: "Demander un devis",
+  },
+  {
+    number: "05", title: "Cartes de visite et de fidélité", price: "Sur devis",
+    billing: "Création graphique sur mesure", text: "Un design qui représente votre entreprise et accompagne vos relations clients.",
+    features: ["Design de carte de visite", "Design de carte de fidélité", "Impression à préciser dans le devis"],
+    paymentLink: null, ctaHref: "/devis", ctaLabel: "Demander un devis",
   },
 ] as const;
 
@@ -156,14 +179,14 @@ export const paymentOptions = [
   {
     number: "02",
     title: "Mensuel",
-    cadence: "Abonnement chaque mois",
-    text: "Une formule récurrente pour l’hébergement, la maintenance et l’accompagnement, jusqu’à résiliation selon les conditions prévues.",
+    cadence: "Selon le devis",
+    text: "Si le projet s’y prête, un montant mensuel personnalisé est défini après l’étude du besoin et accepté avant toute facturation.",
   },
   {
     number: "03",
     title: "Annuel",
-    cadence: "Abonnement chaque année",
-    text: "Les services récurrents sont réglés pour une année. Le renouvellement et le délai de résiliation sont précisés avant validation.",
+    cadence: "Selon le devis",
+    text: "Une formule annuelle personnalisée peut être proposée. Elle est distincte de l’abonnement serveur et domaine fixé à 20 € par an.",
   },
 ] as const;
 
@@ -204,7 +227,7 @@ export const faqItems = [
   {
     question: "Puis-je payer au mois ou à l’année ?",
     answer:
-      "Oui, lorsqu’une formule comprend des services récurrents comme l’hébergement, la maintenance ou l’accompagnement. Le mensuel et l’annuel sont des abonnements jusqu’à résiliation, pas un paiement en plusieurs fois du prix de création. Le montant et les conditions sont indiqués dans le devis.",
+      "Oui, si le projet et son suivi s’y prêtent. Le montant mensuel ou annuel est personnalisé et précisé dans le devis avant tout paiement. L’abonnement serveur, hébergement et nom de domaine de 20 € par an est obligatoire et séparé du prix de création.",
   },
   {
     question: "Dois-je déjà avoir mes textes et mes images ?",
@@ -217,9 +240,9 @@ export const faqItems = [
       "Si vous souhaitez modifier le site vous-même, dites-le dès le premier échange : ce besoin guidera le choix de la solution.",
   },
   {
-    question: "Pourquoi vos tarifs sont-ils accessibles ?",
+    question: "Pourquoi le site n’a-t-il pas de prix fixe ?",
     answer:
-      "Je développe AryWeb en parallèle de mes études et je travaille avec une structure légère. On définit un périmètre réaliste pour votre budget, puis je chiffre chaque ajout avant de commencer.",
+      "Le temps de travail change selon les contenus et le besoin. Décrivez votre projet dans le formulaire, puis je prépare un devis personnalisé.",
   },
   {
     question: "Que peut ouvrir une carte NFC ?",

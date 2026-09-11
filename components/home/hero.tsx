@@ -6,8 +6,8 @@ import { siteConfig } from "@/lib/site";
 const marqueeItems = [
   "Réalisations concrètes",
   "Paiement flexible",
-  "Cartes NFC",
-  "Tarifs accessibles",
+  "Sites sur mesure",
+  "Devis sur mesure",
 ];
 
 export function Hero() {
@@ -30,11 +30,11 @@ export function Hero() {
           </p>
           <p className="hero-lead">
             Je développe AryWeb en parallèle de mes études. Je crée des sites et des
-            cartes NFC avec des formats pensés pour les petits budgets et un suivi direct.
+            cartes NFC avec un périmètre adapté à chaque besoin et un suivi direct.
           </p>
           <div className="hero-actions">
-            <Link className="button button-primary" href="/contact" prefetch={false}>
-              Parler de mon projet <ArrowIcon />
+            <Link className="button button-primary" href="/devis" prefetch={false}>
+              Demander un devis <ArrowIcon />
             </Link>
             <Link className="button button-ghost" href="/methode" prefetch={false}>
               Voir comment je travaille
@@ -51,7 +51,7 @@ export function Hero() {
       </section>
 
       <div className="marquee" aria-label="Engagements AryWeb">
-        <p className="sr-only">Réalisations concrètes, paiement flexible, cartes NFC et tarifs accessibles.</p>
+        <p className="sr-only">Réalisations concrètes, paiement flexible, sites sur mesure et devis personnalisé.</p>
         <div className="marquee-track" aria-hidden="true">
           {marqueeItems.map((item, index) => (
             <span key={`${item}-${index}`}>{item}<i>✳</i></span>

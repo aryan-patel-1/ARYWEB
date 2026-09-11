@@ -1,7 +1,7 @@
 export const projectTypes = [
-  "Site vitrine",
-  "E-commerce",
-  "Refonte",
+  "Création ou refonte de site internet",
+  "Création de contenu pour les réseaux sociaux",
+  "Design de carte de visite ou de fidélité",
   "Carte NFC",
   "Autre besoin",
 ] as const;

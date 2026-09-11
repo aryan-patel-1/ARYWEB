@@ -1,6 +1,6 @@
 # AryWeb
 
-Site vitrine d’AryWeb, réalisé avec Next.js, TypeScript et CSS.
+Site professionnel d’AryWeb, réalisé avec Next.js, TypeScript et CSS.
 
 ## Lancer le projet
 
@@ -30,6 +30,8 @@ npm run check
 ## Déploiement
 
 Le site est exporté statiquement dans le dossier `out` et déployé sur Cloudflare Pages.
+
+La facturation utilise aussi les Pages Functions du dossier `functions` : publier uniquement `out` sur un hébergement statique ne suffit pas. L’espace `/gestion` est protégé par Cloudflare Access. Voir [le guide de facturation Stripe](README-FACTURATION-STRIPE.md) pour ajouter le secret serveur, tester les paiements et utiliser les factures.
 
 - Commande de build : `npm run build`
 - Dossier de sortie : `out`

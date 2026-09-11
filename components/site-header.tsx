@@ -135,7 +135,7 @@ export function SiteHeader() {
           href="/contact"
           prefetch={false}
         >
-          Parler de mon projet <ArrowIcon />
+          Me contacter <ArrowIcon />
         </Link>
 
         <button
@@ -172,7 +172,7 @@ export function SiteHeader() {
               onClick={() => setIsOpen(false)}
               prefetch={false}
             >
-              Parler de mon projet
+              Me contacter
               <ArrowIcon />
             </Link>
           </nav>

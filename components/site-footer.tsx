@@ -9,7 +9,7 @@ export function SiteFooter() {
           <Link className="brand" href="/" aria-label="AryWeb — Accueil" prefetch={false}>
             ARY<span>WEB</span>
           </Link>
-          <p>Sites web et cartes NFC à tarifs accessibles pour indépendants, artisans et commerces.</p>
+          <p>Sites web personnalisés sur devis et cartes NFC pour indépendants, artisans et commerces.</p>
         </div>
 
         <nav className="footer-nav" aria-label="Navigation de pied de page">

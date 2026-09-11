@@ -7,7 +7,7 @@ const canonicalUrl = `${siteConfig.url}/tarifs`;
 
 export const metadata = createPageMetadata({
   title: "Tarifs et paiement",
-  description: "Découvrez les offres et tarifs AryWeb, le règlement comptant et les abonnements mensuels ou annuels associés aux services récurrents.",
+  description: "Demandez un devis personnalisé pour votre site AryWeb et consultez les prix fixes de la carte NFC et de l’abonnement serveur et domaine.",
   path: "/tarifs",
 });
 
@@ -42,7 +42,7 @@ const structuredData = {
               ? {
                   priceSpecification: {
                     "@type": "UnitPriceSpecification",
-                    minPrice: price,
+                    price,
                     priceCurrency: "EUR",
                   },
                 }

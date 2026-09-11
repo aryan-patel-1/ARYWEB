@@ -36,6 +36,8 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
     };
     const payload = normalizeContactPayload({
       name: formData.get("name"),
+      company: formData.get("company"),
+      siret: formData.get("siret"),
       email: formData.get("email"),
       phone: formData.get("phone"),
       projectType: formData.get("projectType"),
@@ -46,6 +48,8 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
     });
     const fallbackBody = [
       `Nom : ${field("name")}`,
+      `Entreprise : ${field("company")}`,
+      `SIRET : ${field("siret")}`,
       `E-mail : ${field("email")}`,
       `Téléphone : ${field("phone") || "Non renseigné"}`,
       `Projet : ${field("projectType")}`,
@@ -88,6 +92,8 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
         },
         body: JSON.stringify({
           name: payload.name,
+          company: payload.company,
+          siret: payload.siret,
           email: payload.email,
           phone: payload.phone,
           project: payload.projectType,
@@ -123,6 +129,10 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
 
   return (
     <form className="contact-form" onSubmit={handleSubmit} noValidate>
+      <div className="form-row">
+        <label><span>Entreprise *</span><input name="company" required autoComplete="organization" maxLength={120} aria-invalid={Boolean(errors.company)} />{fieldError("company")}</label>
+        <label><span>SIRET *</span><input name="siret" required inputMode="numeric" maxLength={18} aria-invalid={Boolean(errors.siret)} />{fieldError("siret")}</label>
+      </div>
       <div className="form-row">
         <label>
           <span>Votre nom <b aria-hidden="true">*</b></span>

@@ -12,20 +12,28 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit --incremental false",
-    "check": "npm run lint && npm run typecheck && npm run build"
+    "check": "npm run lint && npm run typecheck && npm run build",
+    "test:billing": "tsx --test tests/billing.test.ts",
+    "pages:dev": "wrangler pages dev out",
+    "functions:check": "wrangler pages functions build --outdir .wrangler/build"
   },
   "dependencies": {
     "@fontsource-variable/bricolage-grotesque": "5.3.0",
+    "jose": "^6.2.12",
     "next": "16.3.3",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "stripe": "^22.6.2"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260911.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "eslint": "9.39.4",
     "eslint-config-next": "16.3.3",
-    "typescript": "5.9.3"
+    "tsx": "^4.23.13",
+    "typescript": "5.9.3",
+    "wrangler": "^4.131.0"
   }
 }

@@ -4,7 +4,7 @@ import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata = createPageMetadata({
   title: "Contact",
-  description: "Contactez AryWeb pour présenter votre projet de site vitrine, e-commerce, refonte ou carte NFC et recevoir une réponse par e-mail.",
+  description: "Contactez AryWeb pour poser une question sur votre projet de site internet, votre devis ou une carte NFC.",
   path: "/contact",
 });
 

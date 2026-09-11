@@ -1,7 +1,10 @@
 import { budgetRanges, paymentPreferences, projectTypes } from "./contact-options";
+import { isValidSiret } from "./business";
 
 export type ContactPayload = {
   name: string;
+  company: string;
+  siret: string;
   email: string;
   phone: string;
   projectType: string;
@@ -26,6 +29,8 @@ export function normalizeContactPayload(input: unknown): ContactPayload {
 
   return {
     name: singleLineValue("name"),
+    company: singleLineValue("company"),
+    siret: singleLineValue("siret").replace(/\s/g, ""),
     email: singleLineValue("email").toLowerCase(),
     phone: singleLineValue("phone"),
     projectType: singleLineValue("projectType"),
@@ -38,6 +43,8 @@ export function normalizeContactPayload(input: unknown): ContactPayload {
 
 export function validateContactPayload(payload: ContactPayload) {
   const errors: ContactErrors = {};
+  if (payload.company.length < 2 || payload.company.length > 120) errors.company = "Indiquez votre entreprise.";
+  if (!isValidSiret(payload.siret)) errors.siret = "Indiquez un SIRET valide de 14 chiffres.";
 
   if (payload.name.length < 2 || payload.name.length > 80) {
     errors.name = "Indiquez un nom entre 2 et 80 caractères.";
