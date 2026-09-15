@@ -20,13 +20,15 @@ export function QuoteForm({ contactEmail, nfc = false }: { contactEmail: string;
     if (!operationId.current) operationId.current = crypto.randomUUID();
     try {
       if (data.website) throw new Error("Envoi impossible.");
-      const endpoint = nfc ? "/api/nfc" : process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
-      if (!endpoint) throw new Error(`Le formulaire est indisponible. Contactez ${contactEmail}.`);
+      const endpoint = nfc ? "/api/nfc" : "/api/devis";
       const response = await fetch(endpoint, {
         method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ ...data, operationId: operationId.current, siret: String(data.siret).replace(/\s/g, ""), subject: nfc ? "Commande NFC" : "Demande de devis professionnel AryWeb" }),
       });
-      if (!response.ok) throw new Error("L’envoi a échoué. Réessayez ou contactez-nous par e-mail.");
+      if (!response.ok) {
+        const result = await response.json().catch(() => null) as { error?: string } | null;
+        throw new Error(result?.error || "L’envoi a échoué. Réessayez ou contactez-nous par e-mail.");
+      }
       if (nfc) {
         const result = await response.json() as { url: string };
         const url = new URL(result.url);

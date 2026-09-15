@@ -3,7 +3,18 @@ import assert from "node:assert/strict";
 import { isValidSiret } from "../lib/business";
 import { authorize, body, business, cents, operationKey, stripeClient } from "../server/billing";
 
-const env: Env = { SITE_ORIGIN: "https://aryweb.fr", STRIPE_MODE: "test", STRIPE_SECRET_KEY: "", ACCESS_TEAM_DOMAIN: "", ACCESS_AUD: "", ADMIN_EMAIL: "" };
+const env: Env = {
+  SITE_ORIGIN: "https://aryweb.fr",
+  STRIPE_MODE: "test",
+  STRIPE_SECRET_KEY: "",
+  ACCESS_TEAM_DOMAIN: "",
+  ACCESS_AUD: "",
+  ADMIN_EMAIL: "",
+  BREVO_API_KEY: "",
+  BREVO_SENDER_EMAIL: "",
+  BREVO_SENDER_NAME: "",
+  BREVO_TO_EMAIL: "",
+};
 test("SIRET validation checks checksum and rejects empty or all zeros", () => {
   assert.equal(isValidSiret("73282932000074"), true);
   assert.equal(isValidSiret("732 829 320 00074"), true);

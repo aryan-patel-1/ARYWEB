@@ -19,6 +19,7 @@ export function SiteHeader() {
     let previousTime = performance.now();
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const mobileOrTouch = window.matchMedia("(pointer: coarse), (max-width: 820px)").matches;
+    let viewportWidth = window.innerWidth;
 
     const clamp = (value: number) => Math.min(1, Math.max(0, value));
     const interpolate = (start: number, end: number, progress: number) => start + (end - start) * progress;
@@ -28,7 +29,6 @@ export function SiteHeader() {
       const header = headerRef.current;
       if (!header) return;
 
-      const viewportWidth = window.innerWidth;
       const mobile = viewportWidth <= 600;
       const expandedWidth = Math.min(1_180, Math.max(240, viewportWidth - (mobile ? 24 : 40)));
       const compactWidth = Math.min(960, Math.max(232, viewportWidth - (mobile ? 40 : 64)));
@@ -66,7 +66,10 @@ export function SiteHeader() {
     };
 
     const updateScrollTarget = () => {
-      targetProgress = clamp((window.scrollY - 8) / 152);
+      const nextProgress = clamp((window.scrollY - 8) / 152);
+      // Once the header is fully expanded or compact, scrolling needs no work.
+      if (nextProgress === targetProgress) return;
+      targetProgress = nextProgress;
       if (reducedMotion) {
         currentProgress = targetProgress;
         applyProgress(smoothstep(currentProgress));
@@ -76,6 +79,7 @@ export function SiteHeader() {
     };
 
     const updateDimensions = () => {
+      viewportWidth = window.innerWidth;
       applyProgress(smoothstep(currentProgress));
       updateScrollTarget();
     };

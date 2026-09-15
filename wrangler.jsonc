@@ -9,6 +9,9 @@
     "STRIPE_MODE": "live",
     "ACCESS_TEAM_DOMAIN": "green-union-b317.cloudflareaccess.com",
     "ACCESS_AUD": "97f7ee23b656ba720b346b83b13e7cf6a9aab45e8632f7f23f057ad5af9c10d0",
-    "ADMIN_EMAIL": "aryweb15@gmail.com"
+    "ADMIN_EMAIL": "aryweb15@gmail.com",
+    "BREVO_SENDER_EMAIL": "aryweb15@gmail.com",
+    "BREVO_SENDER_NAME": "AryWeb",
+    "BREVO_TO_EMAIL": "aryweb15@gmail.com"
   }
 }

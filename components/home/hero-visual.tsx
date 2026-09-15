@@ -5,17 +5,28 @@ import { PointerEvent, useEffect, useRef } from "react";
 
 export function HeroVisual() {
   const visualRef = useRef<HTMLDivElement>(null);
+  const motionDisabledRef = useRef(true);
   const rectRef = useRef<DOMRect | null>(null);
   const frameRef = useRef(0);
   const pointerRef = useRef({ x: 0, y: 0 });
 
-  useEffect(() => () => {
-    if (frameRef.current) cancelAnimationFrame(frameRef.current);
+  useEffect(() => {
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce), (hover: none), (pointer: coarse)");
+    const updateMotionPreference = () => {
+      motionDisabledRef.current = motionQuery.matches;
+      if (motionDisabledRef.current) rectRef.current = null;
+    };
+
+    updateMotionPreference();
+    motionQuery.addEventListener("change", updateMotionPreference);
+    return () => {
+      motionQuery.removeEventListener("change", updateMotionPreference);
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    };
   }, []);
 
   function handlePointerEnter(event: PointerEvent<HTMLDivElement>) {
-    const motionDisabled = window.matchMedia("(prefers-reduced-motion: reduce), (hover: none), (pointer: coarse)").matches;
-    rectRef.current = motionDisabled ? null : event.currentTarget.getBoundingClientRect();
+    rectRef.current = motionDisabledRef.current ? null : event.currentTarget.getBoundingClientRect();
   }
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {

@@ -22,12 +22,13 @@ export function MotionController() {
       // installing scroll and resize observers altogether.
       if (reducedMotion || mobileOrTouch) return;
     } else {
-      const waitingItems = revealItems.filter((item) => {
-        if (item.getBoundingClientRect().top < window.innerHeight * 0.94) {
-          item.setAttribute("data-in-view", "initial");
-          return false;
-        }
-        return true;
+      // Finish layout reads before changing attributes that can affect styles.
+      const revealBoundary = window.innerHeight * 0.94;
+      const initiallyVisible = revealItems.map((item) => item.getBoundingClientRect().top < revealBoundary);
+      const waitingItems = revealItems.filter((item, index) => {
+        if (!initiallyVisible[index]) return true;
+        item.setAttribute("data-in-view", "initial");
+        return false;
       });
       root.classList.add("motion-ready");
       observer = new IntersectionObserver(
@@ -45,28 +46,42 @@ export function MotionController() {
     }
 
     let animationFrame = 0;
+    let scrollable = 0;
+    let dimensionsDirty = true;
+    let previousProgress = -1;
+    const canObserveResize = "ResizeObserver" in window;
     const updateProgress = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      if (dimensionsDirty || !canObserveResize) {
+        scrollable = root.scrollHeight - window.innerHeight;
+        dimensionsDirty = false;
+      }
       const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
       const normalized = Math.min(1, Math.max(0, progress));
-      if (progressRef.current) progressRef.current.style.transform = `scaleX(${normalized})`;
+      if (progressRef.current && normalized !== previousProgress) {
+        progressRef.current.style.transform = `scaleX(${normalized})`;
+        previousProgress = normalized;
+      }
       animationFrame = 0;
     };
     const onScroll = () => {
       if (!animationFrame) animationFrame = requestAnimationFrame(updateProgress);
     };
+    const onResize = () => {
+      dimensionsDirty = true;
+      onScroll();
+    };
 
     updateProgress();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    const resizeObserver = "ResizeObserver" in window ? new ResizeObserver(onScroll) : null;
+    window.addEventListener("resize", onResize, { passive: true });
+    const resizeObserver = canObserveResize ? new ResizeObserver(onResize) : null;
     if (resizeObserver) resizeObserver.observe(document.body);
 
     return () => {
       observer?.disconnect();
       resizeObserver?.disconnect();
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", onResize);
       if (animationFrame) cancelAnimationFrame(animationFrame);
       root.classList.remove("motion-ready");
     };

@@ -10,8 +10,6 @@ import {
   type ContactErrors,
 } from "@/lib/contact";
 
-const formEndpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT?.trim();
-
 type FormStatus =
   | { type: "idle" }
   | { type: "loading" }
@@ -75,16 +73,8 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
       return;
     }
 
-    if (!formEndpoint) {
-      setStatus({
-        type: "error",
-        message: `Le formulaire n’est pas encore configuré. Vous pouvez écrire à ${contactEmail}.`,
-      });
-      return;
-    }
-
     try {
-      const response = await fetch(formEndpoint, {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -96,17 +86,19 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
           siret: payload.siret,
           email: payload.email,
           phone: payload.phone,
-          project: payload.projectType,
+          projectType: payload.projectType,
           budget: payload.budget,
-          payment_preference: payload.paymentPreference,
+          paymentPreference: payload.paymentPreference,
           message: payload.message,
+          website: payload.website,
         }),
       });
 
       if (!response.ok) {
+        const result = await response.json().catch(() => null) as { error?: string } | null;
         setStatus({
           type: "error",
-          message: "Le service de formulaire a refusé l’envoi. Réessayez dans un instant.",
+          message: result?.error || "Le service de formulaire a refusé l’envoi. Réessayez dans un instant.",
         });
         return;
       }

@@ -7,6 +7,10 @@ interface __BaseEnv_Env {
 	ACCESS_TEAM_DOMAIN: string;
 	ACCESS_AUD: string;
 	ADMIN_EMAIL: string;
+	BREVO_API_KEY: string;
+	BREVO_SENDER_EMAIL: string;
+	BREVO_SENDER_NAME: string;
+	BREVO_TO_EMAIL: string;
 	STRIPE_SECRET_KEY: string;
 }
 declare namespace Cloudflare {
@@ -17,7 +21,7 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "SITE_ORIGIN" | "STRIPE_MODE" | "ACCESS_TEAM_DOMAIN" | "ACCESS_AUD" | "ADMIN_EMAIL" | "STRIPE_SECRET_KEY">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "SITE_ORIGIN" | "STRIPE_MODE" | "ACCESS_TEAM_DOMAIN" | "ACCESS_AUD" | "ADMIN_EMAIL" | "BREVO_API_KEY" | "BREVO_SENDER_EMAIL" | "BREVO_SENDER_NAME" | "BREVO_TO_EMAIL" | "STRIPE_SECRET_KEY">> {}
 }
 
 // Begin runtime types
