@@ -73,5 +73,5 @@ export async function sendBrevoEmail(env: Env, message: BrevoMessage) {
     }),
   });
 
-  if (!response.ok) throw new HttpError("Brevo a refusé l’envoi du message.", 502);
+  if (!response.ok) throw new HttpError(`Brevo a refusé l’envoi du message (${response.status}).`, 503);
 }
