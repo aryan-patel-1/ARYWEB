@@ -55,23 +55,29 @@ export async function sendBrevoEmail(env: Env, message: BrevoMessage) {
   const toEmail = emailAddress(env.BREVO_TO_EMAIL || env.ADMIN_EMAIL, "BREVO_TO_EMAIL");
   const senderName = env.BREVO_SENDER_NAME?.trim() || "AryWeb";
 
-  const response = await fetch(brevoEndpoint, {
-    method: "POST",
-    headers: {
-      accept: "application/json",
-      "api-key": apiKey,
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      sender: { email: senderEmail, name: senderName },
-      to: [{ email: toEmail, name: "AryWeb" }],
-      replyTo: message.replyTo,
-      subject: message.subject,
-      textContent: message.textContent,
-      htmlContent: message.htmlContent,
-      tags: message.tags,
-    }),
-  });
+  let response: Response;
+  try {
+    response = await fetch(brevoEndpoint, {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "api-key": apiKey,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        sender: { email: senderEmail, name: senderName },
+        to: [{ email: toEmail, name: "AryWeb" }],
+        replyTo: message.replyTo,
+        subject: message.subject,
+        textContent: message.textContent,
+        htmlContent: message.htmlContent,
+        tags: message.tags,
+      }),
+    });
+  } catch (error) {
+    console.error("brevo_fetch_failed", error instanceof Error ? error.message : "unknown");
+    throw new HttpError("Impossible de joindre Brevo.", 503);
+  }
 
   if (!response.ok) throw new HttpError(`Brevo a refusé l’envoi du message (${response.status}).`, 503);
 }
